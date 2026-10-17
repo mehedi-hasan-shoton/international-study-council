@@ -17,11 +17,15 @@ import {
   HOME_BLOCKS,
   ABOUT_BLOCKS,
   SERVICES_BLOCKS,
+  APPLY_BLOCKS,
+  PLAN_BLOCKS,
   RESOURCES_PAGE,
   REAL_SERVICES,
   SOCIAL_SETTINGS,
   CONTACT_PATCH,
+  CONTACT_BODY,
   NAV_TRANSLATIONS,
+  CTA_TRANSLATIONS,
 } from './seed-updates'
 import { NEW_COUNTRIES } from './seed-countries'
 import { UNIVERSITIES_A } from './seed-universities-a'
@@ -100,6 +104,17 @@ async function insertPageIfMissing(page: PageSeed): Promise<void> {
     [page.slug, page.title, page.seo_title, page.seo_description, page.show_in_nav, page.nav_label, page.nav_order],
   )
   await writeBlocks(Number((inserted.rows[0] as Row).id), page.blocks)
+}
+
+/** Merge a patch into the first block of a given type on a page. */
+async function patchBlockData(slug: string, type: string, patch: Record<string, any>): Promise<void> {
+  const pid = await pageId(slug)
+  if (!pid) return
+  const res = await raw(`select id, data from blocks where page_id = $1 and type = $2 order by position limit 1`, [pid, type])
+  const row = res.rows[0] as Row | undefined
+  if (!row) return
+  const data = { ...((row.data as Record<string, any>) || {}), ...patch }
+  await raw(`update blocks set data = $2::jsonb where id = $1`, [String(row.id), JSON.stringify(data)])
 }
 
 /** Replace every entry in a collection with the given list. */
@@ -211,6 +226,70 @@ const MIGRATIONS: Array<{ id: string; run: () => Promise<void> }> = [
     run: async () => {
       await patchSetting('social', SOCIAL_SETTINGS)
       await patchSetting('contact', CONTACT_PATCH)
+    },
+  },
+  /* ---- second pass: the fee document is the single source of truth ------ */
+  {
+    id: '2026-10-17i-home-copy',
+    run: () => replaceBlocks('home', HOME_BLOCKS),
+  },
+  {
+    id: '2026-10-17j-apply-consultation',
+    run: async () => {
+      await replaceBlocks('apply', APPLY_BLOCKS)
+      await updatePage('apply', {
+        title: 'Book a consultation',
+        seo_title: 'Book a consultation — International Study Council',
+        seo_description:
+          'Tell us about your background and what you need help with. An advisor reads every submission and replies within one working day.',
+      })
+    },
+  },
+  {
+    id: '2026-10-17k-services-fee-copy',
+    run: () => replaceBlocks('services', SERVICES_BLOCKS),
+  },
+  {
+    id: '2026-10-17l-fee-list-six',
+    run: () => replaceCollection('services', REAL_SERVICES),
+  },
+  {
+    id: '2026-10-17m-plan-copy',
+    run: () => replaceBlocks('plan', PLAN_BLOCKS),
+  },
+  {
+    id: '2026-10-17n-contact-copy',
+    run: async () => {
+      await updatePage('contact', { seo_description: 'Book a consultation, or reach us on WhatsApp.' })
+      await patchBlockData('contact', 'contactForm', { title: 'Book a consultation' })
+      await patchBlockData('contact', 'richtext', { body: CONTACT_BODY })
+    },
+  },
+  {
+    id: '2026-10-17o-cta-label',
+    run: async () => {
+      for (const [locale, key, value] of CTA_TRANSLATIONS) {
+        await setTranslation(locale, key, value)
+      }
+    },
+  },
+  {
+    id: '2026-10-17p-contact-details',
+    run: () => patchSetting('contact', CONTACT_PATCH),
+  },
+  {
+    id: '2026-10-17q-page-seo',
+    run: async () => {
+      await updatePage('home', {
+        seo_title: 'International Study Council — Study abroad, made clear',
+        seo_description:
+          'Independent advisors for university admission, scholarships and student visas. Six services, priced individually.',
+      })
+      await updatePage('about', {
+        title: 'Who we are',
+        seo_title: 'Who we are — International Study Council',
+        seo_description: 'The mission, vision, core values and team behind International Study Council.',
+      })
     },
   },
 ]

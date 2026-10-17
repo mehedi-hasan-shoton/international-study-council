@@ -13,6 +13,8 @@ import {
   HOME_BLOCKS,
   ABOUT_BLOCKS,
   SERVICES_BLOCKS,
+  APPLY_BLOCKS,
+  PLAN_BLOCKS,
   RESOURCES_PAGE,
   REAL_SERVICES,
   SOCIAL_SETTINGS,
@@ -158,7 +160,6 @@ const SETTINGS: Record<string, any> = {
   /* PLACEHOLDERS — replace these in Admin → Site settings.
      The WhatsApp number is in a reserved fictional range and cannot reach anyone. */
   contact: {
-    email: 'hello@internationalstudycouncil.com',
     ...CONTACT_PATCH,
     address: '',
     hours: '',
@@ -173,7 +174,7 @@ const SETTINGS: Record<string, any> = {
   seo: {
     default_title: 'International Study Council — Study abroad, made clear',
     default_description:
-      'Free profile assessment, university matching, scholarship guidance and visa support for international students.',
+      'University admission, scholarship and visa guidance for international students. Six services, priced individually, every fee agreed in writing.',
   },
   languages: {
     enabled: ['en', 'bn', 'es', 'fr', 'ar', 'ru'],
@@ -196,7 +197,7 @@ const PAGES: Array<{
     title: 'Home',
     seo_title: 'International Study Council — Study abroad, made clear',
     seo_description:
-      'Independent advisors for university admission, scholarships and student visas. Services priced per stage. Free assessment.',
+      'Independent advisors for university admission, scholarships and student visas. Six services, priced individually.',
     show_in_nav: false,
     nav_label: 'Home',
     nav_order: 0,
@@ -204,191 +205,14 @@ const PAGES: Array<{
   },
   {
     slug: 'apply',
-    title: 'Apply',
-    seo_title: 'Start your application — International Study Council',
+    title: 'Book a consultation',
+    seo_title: 'Book a consultation — International Study Council',
     seo_description:
-      'Tell us about your background and what you need help with. Free assessment, reply within one working day.',
+      'Tell us about your background and what you need help with. An advisor reads every submission and replies within one working day.',
     show_in_nav: false,
     nav_label: 'Apply',
     nav_order: 9,
-    blocks: [
-      {
-        type: 'pageHeader',
-        data: {
-          eyebrow: 'Application',
-          title: 'Start your application',
-          body: 'Three short steps. Nothing is charged and nothing is committed — this is how we work out whether we can help you, and how.',
-        },
-      },
-      {
-        type: 'applicationForm',
-        data: {
-          label: 'Application form',
-          title: '',
-          body: '',
-          submit_label: 'Submit my application',
-          success_title: 'Application received',
-          success_body:
-            'An advisor will review your details and reply within one working day. If it is urgent, message us on WhatsApp.',
-          steps: [
-            { title: 'About you', description: 'So we know who we are advising and how to reach you.' },
-            { title: 'Your study plans', description: 'Rough answers are fine — we will refine them together.' },
-            { title: 'How we can help', description: 'Tick everything you want help with. You can change this later.' },
-          ],
-          fields: [
-            { key: 'name', label: 'Full name', type: 'text', step: 1, required: true },
-            { key: 'email', label: 'Email', type: 'email', step: 1, required: true },
-            { key: 'phone', label: 'Phone', type: 'tel', step: 1 },
-            { key: 'whatsapp', label: 'WhatsApp number', type: 'tel', step: 1, help: 'Include the country code.' },
-            { key: 'nationality', label: 'Nationality', type: 'text', step: 1 },
-            { key: 'current_city', label: 'Where you are now', type: 'text', step: 1 },
-
-            {
-              key: 'current_qualification',
-              label: 'Highest qualification so far',
-              type: 'select',
-              step: 2,
-              options: [
-                'Secondary school / high school',
-                'Foundation programme',
-                'Diploma',
-                "Bachelor's — in progress",
-                "Bachelor's — completed",
-                "Master's — completed",
-              ],
-            },
-            { key: 'institution', label: 'School or university', type: 'text', step: 2 },
-            { key: 'result', label: 'Result or GPA', type: 'text', step: 2, placeholder: 'e.g. GPA 3.2/4.0, or 78%' },
-            { key: 'graduation_year', label: 'Year completed', type: 'text', step: 2, placeholder: '2026' },
-            {
-              key: 'english_test',
-              label: 'English test',
-              type: 'select',
-              step: 2,
-              options: ['Not taken yet', 'IELTS', 'TOEFL', 'PTE', 'Duolingo', 'My degree was taught in English'],
-            },
-            { key: 'english_score', label: 'English score', type: 'text', step: 2, placeholder: 'e.g. IELTS 6.0 overall' },
-            {
-              key: 'country',
-              label: 'Preferred destination',
-              type: 'select',
-              step: 2,
-              options: [
-                'Malaysia',
-                'Cyprus',
-                'Hungary',
-                'Germany',
-                'United Kingdom',
-                'Australia',
-                'Not sure yet — advise me',
-              ],
-            },
-            {
-              key: 'level',
-              label: 'Level of study',
-              type: 'select',
-              step: 2,
-              options: ['Foundation', 'Diploma', "Bachelor's", "Master's", 'PhD'],
-            },
-            { key: 'field_of_study', label: 'Subject you want to study', type: 'text', step: 2 },
-            {
-              key: 'intake',
-              label: 'Preferred intake',
-              type: 'select',
-              step: 2,
-              options: ['January 2027', 'May 2027', 'September 2027', 'January 2028', 'Not sure yet'],
-            },
-            {
-              key: 'budget',
-              label: 'Annual budget for tuition',
-              type: 'select',
-              step: 2,
-              options: [
-                'Under USD 5,000',
-                'USD 5,000 – 10,000',
-                'USD 10,000 – 20,000',
-                'Above USD 20,000',
-                'I need full funding',
-              ],
-            },
-
-            {
-              key: 'services',
-              label: 'What would you like help with?',
-              type: 'checkboxes',
-              step: 3,
-              required: true,
-              options: [
-                'Statement of Purpose (SOP)',
-                'CV & Résumé writing',
-                'Career counselling & planning',
-                'University & course matching',
-                'Application submission',
-                'Scholarship & funding guidance',
-                'IELTS & English test preparation',
-                'Visa application',
-                'Pre-departure support',
-              ],
-            },
-            {
-              key: 'documents_ready',
-              label: 'What do you have ready?',
-              type: 'select',
-              step: 3,
-              options: ['Everything', 'Transcripts and certificates', 'Just my results so far', 'Nothing yet'],
-            },
-            {
-              key: 'hear_about',
-              label: 'How did you find us?',
-              type: 'select',
-              step: 3,
-              options: ['Facebook', 'Instagram', 'LinkedIn', 'WhatsApp', 'A friend or family member', 'Google search', 'Other'],
-            },
-            {
-              key: 'message',
-              label: 'Anything else we should know?',
-              type: 'textarea',
-              step: 3,
-              placeholder: 'Gaps in your study history, a previous refusal, a deadline you are working towards…',
-            },
-          ],
-        },
-      },
-      {
-        type: 'faq',
-        data: {
-          label: 'Before you start',
-          title: 'What happens after you submit',
-          items: [
-            {
-              question: 'What happens to my details?',
-              answer:
-                'They go into our own database and are visible only to our advisors. We do not sell them and we do not pass them to universities until you ask us to submit an application.',
-            },
-            {
-              question: 'Is the assessment really free?',
-              answer:
-                'Yes. The call and the written shortlist cost nothing, and there is no obligation to buy anything afterwards. You are welcome to take the shortlist and apply yourself.',
-            },
-            {
-              question: 'How quickly will I hear back?',
-              answer:
-                'Within one working day. If your intake is imminent, say so in the message field and we will prioritise it.',
-            },
-            {
-              question: 'I am not sure which service I need.',
-              answer:
-                'Tick everything that sounds relevant, or tick nothing at all. The first call is where we work out what is actually worth paying for.',
-            },
-          ],
-        },
-      },
-      {
-        type: 'contactDetails',
-        data: { label: 'Direct', title: 'Or reach us directly', body: 'If the form feels like too much, just message us.' },
-      },
-      { type: 'whatsappFloat', data: { label: 'Chat on WhatsApp' } },
-    ],
+    blocks: APPLY_BLOCKS,
   },
   {
     slug: 'destinations',
@@ -444,71 +268,11 @@ const PAGES: Array<{
     seo_title: 'Build your own study-abroad plan — International Study Council',
     seo_description:
       'Pick the services you actually need, see the cost and timeline update as you build, and send the plan to an advisor.',
+    show_in_nav: false,
     nav_label: 'Build a plan',
     nav_order: 9,
-    show_in_nav: false,
     /* kept for direct links only */
-    blocks: [
-      {
-        type: 'pageHeader',
-        data: {
-          eyebrow: 'Your plan',
-          title: 'Build your plan',
-          body: 'Nobody needs every service. Pick the blocks that fit where you are, see exactly what it costs, and send it to us when you are ready.',
-        },
-      },
-      {
-        type: 'planBuilder',
-        data: {
-          label: '',
-          title: '',
-          body: '',
-          cta_href: '/apply',
-        },
-      },
-      {
-        type: 'faq',
-        data: {
-          label: 'Questions',
-          title: 'About building a plan',
-          items: [
-            {
-              question: 'Is this the final price?',
-              answer:
-                'It is the list price for each service. Your written quote confirms it, and we will tell you if a service is not worth buying in your situation.',
-            },
-            {
-              question: 'Can I change my plan later?',
-              answer:
-                'Yes. Plans change as students get offers, change their mind about a country, or run out of time. Nothing here locks you in.',
-            },
-            {
-              question: 'What if I pick nothing?',
-              answer:
-                'Then book the free assessment. That is genuinely enough for plenty of students — we will tell you what you can do yourself.',
-            },
-            {
-              question: 'How is the timeline calculated?',
-              answer:
-                'It is the longest single service in your plan, because we run the work in parallel wherever we can rather than one after another.',
-            },
-          ],
-        },
-      },
-      {
-        type: 'cta',
-        data: {
-          headline: 'Rather just talk it through?',
-          body: 'Book the free assessment and we will tell you which blocks are actually worth paying for.',
-          primary_label: 'Free assessment',
-          primary_href: '/apply',
-          secondary_label: 'See all services',
-          secondary_href: '/services',
-          variant: 'ink',
-        },
-      },
-      { type: 'whatsappFloat', data: { label: 'Chat on WhatsApp' } },
-    ],
+    blocks: PLAN_BLOCKS,
   },
   {
     slug: 'universities',
@@ -631,7 +395,7 @@ const PAGES: Array<{
     slug: 'contact',
     title: 'Contact',
     seo_title: 'Contact — International Study Council',
-    seo_description: 'Book a free study-abroad assessment, or reach us on WhatsApp.',
+    seo_description: 'Book a consultation, or reach us on WhatsApp.',
     show_in_nav: true,
     nav_label: 'Contact',
     nav_order: 6,
@@ -640,7 +404,7 @@ const PAGES: Array<{
         type: 'pageHeader',
         data: {
           eyebrow: 'Contact',
-          title: 'Free assessment',
+          title: 'Book a consultation',
           body: 'Fill this in and an advisor replies within one working day. Bring your transcripts, budget and any English test score.',
         },
       },
@@ -739,7 +503,7 @@ const PAGES: Array<{
           label: 'Last updated',
           title: '',
           width: 'narrow',
-          body: "## What we provide\n\nWe provide advice on university selection, applications, funding and student visas. The assessment and shortlist are free. Any further service is priced in writing before you commit to it.\n\n## What we cannot promise\n\nWe do not control admission decisions or visa outcomes. We will give you an honest assessment of your chances, but no advisor can guarantee an offer or a visa.\n\n## Your responsibilities\n\nYou are responsible for the accuracy of the documents you give us. Providing falsified transcripts or financial evidence can result in an offer being withdrawn and may be a criminal offence.\n\n## Fees\n\nWhere a university pays us a referral fee, it is disclosed on your shortlist. Service fees are refundable only in the circumstances set out in your engagement letter.\n\n## Complaints\n\nIf something goes wrong, tell us first. We will respond within five working days.",
+          body: "## What we provide\n\nWe provide advice on university selection, applications, funding and student visas. Every service is priced individually and quoted in writing before you commit to it — see the full fee list on the services page.\n\n## What we cannot promise\n\nWe do not control admission decisions or visa outcomes. We will give you an honest assessment of your chances, but no advisor can guarantee an offer or a visa.\n\n## Your responsibilities\n\nYou are responsible for the accuracy of the documents you give us. Providing falsified transcripts or financial evidence can result in an offer being withdrawn and may be a criminal offence.\n\n## Fees\n\nWhere a university pays us a referral fee, it is disclosed on your shortlist. Service fees are refundable only in the circumstances set out in your engagement letter.\n\n## Complaints\n\nIf something goes wrong, tell us first. We will respond within five working days.",
         },
       },
     ],
@@ -1482,10 +1246,10 @@ const ADVISORS = [
     slug: 'arif-hossain',
     data: {
       role: 'Managing Director',
-      bio: 'Fifteen years in international admissions, previously regional manager for two Malaysian universities. Handles profile assessments personally.',
+      bio: 'Fifteen years in international admissions, previously regional manager for two Malaysian universities. Handles every consultation personally.',
       email: 'arif@internationalstudycouncil.com',
       linkedin: 'https://www.linkedin.com/in/example',
-      focus: 'Malaysia · Cyprus · Profile assessment',
+      focus: 'Malaysia · Cyprus · Consultations',
       photo: '',
     },
   },

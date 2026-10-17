@@ -998,9 +998,7 @@ registerBlock({
             </tbody>
           </table>
         </div>
-        <p className="fees__note">
-          Fees are agreed in writing before any work starts. The profile assessment is always free.
-        </p>
+        <p className="fees__note">Fees are agreed in writing before any work starts.</p>
       </Section>
     )
   },
@@ -1429,15 +1427,20 @@ registerBlock({
       }
     })
 
-    const wa = String(ctx.settings.contact.whatsapp || '').replace(/[^\d]/g, '')
+    const digits = String(ctx.settings.contact.whatsapp || '').replace(/[^\d]/g, '')
+    const waBase =
+      String(ctx.settings.contact.whatsapp_link || '').trim() || (digits ? `https://wa.me/${digits}` : '')
     const text = encodeURIComponent(ctx.settings.contact.whatsapp_message || '')
+    const waHref = waBase
+      ? `${waBase}${text ? (waBase.includes('?') ? '&' : '?') + `text=${text}` : ''}`
+      : undefined
 
     return (
       <Section className="blk-plan" id="build">
         <SectionHead label={data.label} title={data.title} body={data.body} />
         <PlanBuilder
           services={services}
-          whatsappUrl={wa ? `https://wa.me/${wa}${text ? `?text=${text}` : ''}` : undefined}
+          whatsappUrl={waHref}
           labels={{
             available: ctx.i18n.t('plan.available'),
             availableHint: ctx.i18n.t('plan.availableHint'),
@@ -1530,11 +1533,18 @@ registerBlock({
 
     if (!sections.length) return null
 
-    const demoServices = services.map((entry) => ({
-      name: entry.title,
-      price: String(entry.data?.price_value ? `USD ${entry.data.price_value}` : entry.data?.price || ''),
-      icon: iconForService(String(entry.data?.category || ''), entry.title),
-    }))
+    const demoServices = services.map((entry) => {
+      const d = entry.data || {}
+      const value = Number(d.price_value ?? 0)
+      const display = String(d.price || '') || (value ? money(value, String(d.currency || 'EUR')) : '')
+      return {
+        name: entry.title,
+        price: display,
+        value,
+        currency: String(d.currency || 'EUR'),
+        icon: iconForService(String(d.category || ''), entry.title),
+      }
+    })
 
     const mapCountries = countries
       .map((entry) => {
@@ -1827,7 +1837,12 @@ registerBlock({
   ],
   render: ({ data, ctx }) => {
     const { contact, social } = ctx.settings
-    const wa = String(contact.whatsapp || '').replace(/[^\d]/g, '')
+    /* The official WhatsApp business chat link wins over a raw number. */
+    const waLink =
+      String(contact.whatsapp_link || '').trim() ||
+      (String(contact.whatsapp || '').replace(/[^\d]/g, '')
+        ? `https://wa.me/${String(contact.whatsapp || '').replace(/[^\d]/g, '')}`
+        : '')
     return (
       <Section className="blk-contact">
         <SectionHead label={data.label} title={data.title} body={data.body} />
@@ -1844,8 +1859,8 @@ registerBlock({
               <span className="contact-item__value">{contact.phone}</span>
             </a>
           ) : null}
-          {wa ? (
-            <a className="contact-item" href={`https://wa.me/${wa}`} target="_blank" rel="noopener noreferrer">
+          {waLink ? (
+            <a className="contact-item" href={waLink} target="_blank" rel="noopener noreferrer">
               <span className="contact-item__label">{ctx.i18n.t('contact.whatsapp')}</span>
               <span className="contact-item__value">{ctx.i18n.t('cta.chatWhatsapp')}</span>
             </a>
@@ -1886,11 +1901,13 @@ registerBlock({
   initial: () => ({ label: 'Chat on WhatsApp' }),
   fields: [{ key: 'label', label: 'Button label', type: 'text', span: 2 }],
   render: ({ data, ctx }) => {
-    const wa = String(ctx.settings.contact.whatsapp || '').replace(/[^\d]/g, '')
-    if (!wa) return null
+    /* The official WhatsApp business chat link wins over a raw number. */
+    const digits = String(ctx.settings.contact.whatsapp || '').replace(/[^\d]/g, '')
+    const base = String(ctx.settings.contact.whatsapp_link || '').trim() || (digits ? `https://wa.me/${digits}` : '')
+    if (!base) return null
     const text = encodeURIComponent(ctx.settings.contact.whatsapp_message || '')
     return (
-      <a className="wa-float" href={`https://wa.me/${wa}${text ? `?text=${text}` : ''}`} target="_blank" rel="noopener noreferrer">
+      <a className="wa-float" href={`${base}${text ? (base.includes('?') ? '&' : '?') + `text=${text}` : ''}`} target="_blank" rel="noopener noreferrer">
         <span className="wa-float__dot" aria-hidden="true" />
         {data.label || 'Chat on WhatsApp'}
       </a>

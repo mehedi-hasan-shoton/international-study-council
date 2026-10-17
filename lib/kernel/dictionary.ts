@@ -393,7 +393,7 @@ export const DICTIONARY: Record<Locale, Record<string, string>> = {
     'nav.contact': 'Contacto',
     'nav.guides': 'Guías',
 
-    'cta.startApplication': 'Empezar solicitud',
+    'cta.startApplication': 'Reservar una consulta',
     'cta.freeAssessment': 'Evaluación gratuita',
     'cta.chatWhatsapp': 'Hablar por WhatsApp',
     'cta.getInTouch': 'Escríbenos',
@@ -562,7 +562,7 @@ export const DICTIONARY: Record<Locale, Record<string, string>> = {
     'nav.contact': 'Contact',
     'nav.guides': 'Guides',
 
-    'cta.startApplication': 'Commencer ma candidature',
+    'cta.startApplication': 'Réserver une consultation',
     'cta.freeAssessment': 'Évaluation gratuite',
     'cta.chatWhatsapp': 'Discuter sur WhatsApp',
     'cta.getInTouch': 'Nous écrire',
@@ -731,7 +731,7 @@ export const DICTIONARY: Record<Locale, Record<string, string>> = {
     'nav.contact': 'اتصل بنا',
     'nav.guides': 'أدلة',
 
-    'cta.startApplication': 'ابدأ طلبك',
+    'cta.startApplication': 'احجز استشارة',
     'cta.freeAssessment': 'تقييم مجاني',
     'cta.chatWhatsapp': 'تواصل عبر واتساب',
     'cta.getInTouch': 'تواصل معنا',

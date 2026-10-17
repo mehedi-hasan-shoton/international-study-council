@@ -4712,9 +4712,9 @@ a.mark:hover .mark__logo {
 }
 .iscl__word {
   font-family: var(--font-sans, Inter, sans-serif);
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 500;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.12em;
   fill: #22334a;
 }
 .iscl__arc {
@@ -6489,23 +6489,22 @@ body::before {
   letter-spacing: 0.01em;
   color: var(--fg);
 }
-/* The links sit dead centre, so below ~1520px the wordmark steps aside and
-   the logo mark carries the brand on its own. */
-@media (max-width: 1520px) {
+/* Below ~1300px the wordmark steps aside and the logo mark carries the
+   brand on its own, leaving room for the six nav links and the actions. */
+@media (max-width: 1300px) {
   .brand__name {
     display: none;
   }
 }
 
-/* Links sit dead centre, like the reference. */
+/* Links sit right after the brand, and the actions are pushed to the far
+   right — no absolute centring, so nothing can overlap at any width. */
 .site-nav {
-  position: absolute;
-  inset-inline-start: 50%;
-  transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: clamp(0.6rem, 1.5vw, 1.3rem);
+  gap: clamp(0.6rem, 1.4vw, 1.25rem);
   margin: 0;
+  min-width: 0;
   white-space: nowrap;
 }
 .site-nav a {
@@ -6531,6 +6530,7 @@ body::before {
   align-items: center;
   gap: 0.6rem;
   flex: 0 0 auto;
+  margin-inline-start: auto;
 }
 
 @media (max-width: 1080px) {

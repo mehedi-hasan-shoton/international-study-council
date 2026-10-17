@@ -45,8 +45,20 @@ export async function storeFile(file: File): Promise<StoredFile> {
   }
 
   const dir = path.join(process.cwd(), 'public', 'uploads')
-  await mkdir(dir, { recursive: true })
-  await writeFile(path.join(dir, filename), buffer)
+  try {
+    await mkdir(dir, { recursive: true })
+    await writeFile(path.join(dir, filename), buffer)
+  } catch (error: any) {
+    /* Serverless filesystems are read-only. Say so, and say what fixes it. */
+    if (error?.code === 'EROFS' || error?.code === 'EACCES' || error?.code === 'ENOENT') {
+      throw new Error(
+        'This deployment cannot write uploads to disk. Connect Vercel Blob to the project ' +
+          '(Storage → Blob → Connect project) — it adds BLOB_READ_WRITE_TOKEN automatically — ' +
+          'then redeploy. Until then, reference images by URL instead.',
+      )
+    }
+    throw error
+  }
   return { url: `/uploads/${filename}`, filename, mime, size: buffer.byteLength }
 }
 

@@ -28,7 +28,11 @@ export default async function SiteFooter({ locale }: { locale: string }) {
   const href = (path: string) => localePath(dict.locale, path)
 
   const { social, contact, identity } = settings
-  const wa = String(contact.whatsapp || '').replace(/[^\d]/g, '')
+  /* The official WhatsApp business chat link wins over a raw number. */
+  const wa = String(contact.whatsapp_link || '').trim() || (() => {
+    const digits = String(contact.whatsapp || '').replace(/[^\d]/g, '')
+    return digits ? `https://wa.me/${digits}` : ''
+  })()
   const year = new Date().getFullYear()
 
   const links: Array<{ key: SocialKey; label: string; href: string }> = []

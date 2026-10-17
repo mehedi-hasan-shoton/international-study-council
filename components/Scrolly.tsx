@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Icon, { type IconName } from './Icon'
 import { blocksToPath, type WorldGeometry } from '@/lib/kernel/world'
+import { money } from '@/lib/kernel/ids'
 
 export type ScrollySection = {
   id: string
@@ -14,7 +15,7 @@ export type ScrollySection = {
   cta?: { label: string; href: string }
 }
 
-type DemoService = { name: string; price: string; icon: IconName }
+type DemoService = { name: string; price: string; value: number; currency: string; icon: IconName }
 type DemoMapCountry = { iso: string; name: string; flag: string; status: 'live' | 'progress' | 'none' }
 
 export default function Scrolly({
@@ -168,11 +169,13 @@ function Foot({ children }: { children: React.ReactNode }) {
 
 function DemoServices({ services }: { services: DemoService[] }) {
   const shown = services.slice(0, 5)
-  const picked = 3
-  const total = 10
+  const picked = Math.min(3, shown.length)
+  const chosen = shown.slice(0, picked)
+  const total = chosen.reduce((sum, service) => sum + (service.value || 0), 0)
+  const currency = chosen[0]?.currency || 'EUR'
   return (
     <div className="dm dm--services">
-      <Head title="Choose your services" meta={`${picked} of ${total}`} />
+      <Head title="Choose your services" meta={`${picked} of ${services.length}`} />
       <ul className="dm__list">
         {shown.map((service, index) => {
           const on = index < picked
@@ -196,14 +199,14 @@ function DemoServices({ services }: { services: DemoService[] }) {
       </ul>
       <div className="dm__total" style={{ animationDelay: `${420 + picked * 300 + 200}ms` }}>
         <span>Running total</span>
-        <strong>USD 620</strong>
+        <strong>{money(total, currency)}</strong>
       </div>
       <div className="dm__meter" aria-hidden="true">
         <span style={{ animationDelay: '420ms' }} />
       </div>
       <Foot>
-        <span>Free assessment included</span>
-        <span>{picked} of {total} services</span>
+        <span>Fees agreed in writing</span>
+        <span>{picked} of {services.length} services</span>
       </Foot>
     </div>
   )
@@ -213,7 +216,7 @@ function DemoServices({ services }: { services: DemoService[] }) {
 
 function DemoProcess() {
   const steps = [
-    { name: 'Free assessment', meta: '30 minutes', state: 'done' },
+    { name: 'Consultation booked', meta: '1 hour', state: 'done' },
     { name: 'Shortlist written up', meta: '5–8 programmes', state: 'done' },
     { name: 'Applications submitted', meta: 'SOP · CV · portals', state: 'active' },
     { name: 'Visa file & briefing', meta: 'before you fly', state: 'todo' },

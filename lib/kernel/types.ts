@@ -86,6 +86,7 @@ export type SiteSettings = {
     email: string
     phone: string
     whatsapp: string
+    whatsapp_link: string
     whatsapp_message: string
     address: string
     hours: string

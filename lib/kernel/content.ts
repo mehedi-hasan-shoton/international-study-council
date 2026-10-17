@@ -350,7 +350,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
     logo_text: 'ISC',
     description: '',
   },
-  contact: { email: '', phone: '', whatsapp: '', whatsapp_message: '', address: '', hours: '' },
+  contact: { email: '', phone: '', whatsapp: '', whatsapp_link: '', whatsapp_message: '', address: '', hours: '' },
   social: { linkedin: '', facebook: '', instagram: '', youtube: '' },
   theme: { accent: '#1B48D6', accent_ink: '#0F2E8C' },
   seo: { default_title: '', default_description: '' },
@@ -577,9 +577,9 @@ export type SearchHit = {
 
 /** Always-available shortcuts, so "apply" or "contact" works before anything is typed. */
 const QUICK_LINKS: Array<{ title: string; subtitle: string; href: string; words: string }> = [
-  { title: 'Book a consultation', subtitle: 'Three steps, free assessment', href: '/apply', words: 'apply application start booking consultation form contact' },
+  { title: 'Book a consultation', subtitle: 'Three steps, reply within one working day', href: '/apply', words: 'apply application start booking consultation form contact' },
   { title: 'Who we are', subtitle: 'Mission, vision and team', href: '/about', words: 'about who mission vision values team' },
-  { title: 'All services', subtitle: 'Seven services, clear fees', href: '/services', words: 'services sop cv ielts visa career funding fees price payment' },
+  { title: 'All services', subtitle: 'Six services, clear fees', href: '/services', words: 'services sop cv ielts visa career funding fees price payment' },
   { title: 'Universities', subtitle: 'Partner institutions', href: '/universities', words: 'universities colleges partners list search' },
   { title: 'Scholarships', subtitle: 'Funding you qualify for', href: '/scholarships', words: 'scholarship funding grant money award' },
   { title: 'Destinations', subtitle: 'Where you can study', href: '/destinations', words: 'countries destinations where abroad map' },

@@ -35,7 +35,7 @@ export const HOME_BLOCKS: Array<{ type: string; data: Record<string, any> }> = [
       secondary_href: '',
       show_mark: true,
       show_search: true,
-      footnote: 'Free assessment. No fees until you hold an offer.',
+      footnote: 'Every fee is agreed in writing before any work starts.',
       variant: 'mark',
     },
   },
@@ -51,9 +51,9 @@ export const HOME_BLOCKS: Array<{ type: string; data: Record<string, any> }> = [
           id: 'services',
           label: 'Services',
           title: 'What we do',
-          body: 'Seven services, priced individually — take one, take all, or take none. The assessment is free either way.',
+          body: 'Six services, priced individually — take one, take all, or take none. Every fee is agreed in writing before any work starts.',
           points: [
-            'Getting started — free assessment, career counselling, eligibility check',
+            'Getting started — career counselling, scholarship eligibility check',
             'Documents — CV writing, SOP review, or the combo package',
             'Funding — the full scholarship package, from scratch to submission',
           ],
@@ -159,8 +159,8 @@ export const HOME_BLOCKS: Array<{ type: string; data: Record<string, any> }> = [
   {
     type: 'cta',
     data: {
-      headline: 'Start with the free assessment.',
-      body: 'Thirty minutes, no obligation. You leave with a shortlist and a realistic budget — whether or not you use us.',
+      headline: 'Not sure where to start?',
+      body: 'Tell us where you are in the process and what you can afford. We will tell you which services are worth paying for — and which you can do yourself.',
       primary_label: 'Book a consultation',
       primary_href: '/apply',
       secondary_label: 'See the services',
@@ -339,7 +339,7 @@ export const SERVICES_BLOCKS: Array<{ type: string; data: Record<string, any> }>
     data: {
       eyebrow: 'Services',
       title: 'What we actually do',
-      body: 'Seven services, priced individually — from the free assessment to the full scholarship package. You only pay for the parts you need, and every fee is agreed in writing first.',
+      body: 'Six services, priced individually — from a single eligibility check to the full scholarship package. You only pay for the parts you need, and every fee is agreed in writing first.',
     },
   },
   {
@@ -362,7 +362,6 @@ export const SERVICES_BLOCKS: Array<{ type: string; data: Record<string, any> }>
       show_includes: true,
     },
   },
-  PAYMENT_BLOCK,
   {
     type: 'steps',
     data: {
@@ -386,7 +385,7 @@ export const SERVICES_BLOCKS: Array<{ type: string; data: Record<string, any> }>
         {
           question: 'Do I have to buy the whole package?',
           answer:
-            'No. Every service is priced on its own. Plenty of students take the free assessment and the SOP review and do the rest themselves — that is a perfectly good outcome for us.',
+            'No. Every service is priced on its own. Many students take the eligibility check and the SOP review and do the rest themselves — that is a perfectly good outcome for us.',
         },
         {
           question: 'Can you write my SOP for me?',
@@ -401,7 +400,7 @@ export const SERVICES_BLOCKS: Array<{ type: string; data: Record<string, any> }>
         {
           question: 'Who is the full scholarship package for?',
           answer:
-            'It is reserved for candidates we have already assessed and selected — the €1,000 package covers everything from the first search to a submitted application. Ask during your free assessment.',
+            'It is reserved for candidates we have already assessed and selected — the €1,000 package covers everything from the first search to a submitted application. Ask during your consultation.',
         },
         {
           question: 'How do I pay?',
@@ -426,27 +425,215 @@ export const SERVICES_BLOCKS: Array<{ type: string; data: Record<string, any> }>
 ]
 
 /* -------------------------------------------------------------------------- */
+/* Book a consultation — the booking page, with payment on the same page       */
+/* -------------------------------------------------------------------------- */
+
+export const APPLY_BLOCKS: Array<{ type: string; data: Record<string, any> }> = [
+  {
+    type: 'pageHeader',
+    data: {
+      eyebrow: 'Consultation',
+      title: 'Book a consultation',
+      body: 'Tell us about your background and what you need help with. An advisor reads every submission and replies within one working day.',
+    },
+  },
+  {
+    type: 'applicationForm',
+    data: {
+      label: 'Consultation request',
+      title: '',
+      body: '',
+      submit_label: 'Send my request',
+      success_title: 'Request received',
+      success_body:
+        'An advisor will review your details and reply within one working day. If it is urgent, message us on WhatsApp.',
+      steps: [
+        { title: 'About you', description: 'So we know who we are advising and how to reach you.' },
+        { title: 'Your study plans', description: 'Rough answers are fine — we will refine them together.' },
+        { title: 'How we can help', description: 'Tick everything you want help with. You can change this later.' },
+      ],
+      fields: [
+        { key: 'name', label: 'Full name', type: 'text', step: 1, required: true },
+        { key: 'email', label: 'Email', type: 'email', step: 1, required: true },
+        { key: 'phone', label: 'Phone', type: 'tel', step: 1 },
+        { key: 'whatsapp', label: 'WhatsApp number', type: 'tel', step: 1, help: 'Include the country code.' },
+        { key: 'nationality', label: 'Nationality', type: 'text', step: 1 },
+        { key: 'current_city', label: 'Where you are now', type: 'text', step: 1 },
+
+        {
+          key: 'current_qualification',
+          label: 'Highest qualification so far',
+          type: 'select',
+          step: 2,
+          options: [
+            'Secondary school / high school',
+            'Foundation programme',
+            'Diploma',
+            "Bachelor's — in progress",
+            "Bachelor's — completed",
+            "Master's — completed",
+          ],
+        },
+        { key: 'institution', label: 'School or university', type: 'text', step: 2 },
+        { key: 'result', label: 'Result or GPA', type: 'text', step: 2, placeholder: 'e.g. GPA 3.2/4.0, or 78%' },
+        { key: 'graduation_year', label: 'Year completed', type: 'text', step: 2, placeholder: '2026' },
+        {
+          key: 'english_test',
+          label: 'English test',
+          type: 'select',
+          step: 2,
+          options: ['Not taken yet', 'IELTS', 'TOEFL', 'PTE', 'Duolingo', 'My degree was taught in English'],
+        },
+        { key: 'english_score', label: 'English score', type: 'text', step: 2, placeholder: 'e.g. IELTS 6.0 overall' },
+        {
+          key: 'country',
+          label: 'Preferred destination',
+          type: 'select',
+          step: 2,
+          options: [
+            'Malaysia',
+            'Cyprus',
+            'Hungary',
+            'Germany',
+            'United Kingdom',
+            'Australia',
+            'France',
+            'Italy',
+            'Spain',
+            'Sweden',
+            'Finland',
+            'Denmark',
+            'Switzerland',
+            'Belgium',
+            'Austria',
+            'Czechia',
+            'Netherlands',
+            'Canada',
+            'Ireland',
+            'Poland',
+            'United Arab Emirates',
+            'Singapore',
+            'Japan',
+            'South Korea',
+            'Not sure yet — advise me',
+          ],
+        },
+        {
+          key: 'level',
+          label: 'Level of study',
+          type: 'select',
+          step: 2,
+          options: ['Foundation', 'Diploma', "Bachelor's", "Master's", 'PhD'],
+        },
+        { key: 'field_of_study', label: 'Subject you want to study', type: 'text', step: 2 },
+        {
+          key: 'intake',
+          label: 'Preferred intake',
+          type: 'select',
+          step: 2,
+          options: ['January 2027', 'May 2027', 'September 2027', 'January 2028', 'Not sure yet'],
+        },
+        {
+          key: 'budget',
+          label: 'Annual budget for tuition',
+          type: 'select',
+          step: 2,
+          options: [
+            'Under USD 5,000',
+            'USD 5,000 – 10,000',
+            'USD 10,000 – 20,000',
+            'Above USD 20,000',
+            'I need full funding',
+          ],
+        },
+
+        {
+          key: 'services',
+          label: 'What would you like help with?',
+          type: 'checkboxes',
+          step: 3,
+          required: true,
+          options: [
+            'Career Counselling Session (€30 / BDT 2,500)',
+            'Scholarship Eligibility Check (€30 / BDT 2,500)',
+            'CV / Résumé Writing (€30 / BDT 2,500)',
+            'SOP Review & Writing (€30 / BDT 2,500)',
+            'CV + SOP Combo Package (€50 / BDT 5,000)',
+            'Full Scholarship Package (€1,000, preselected candidates)',
+            'Not sure yet — advise me',
+          ],
+        },
+        {
+          key: 'documents_ready',
+          label: 'What do you have ready?',
+          type: 'select',
+          step: 3,
+          options: ['Everything', 'Transcripts and certificates', 'Just my results so far', 'Nothing yet'],
+        },
+        {
+          key: 'hear_about',
+          label: 'How did you find us?',
+          type: 'select',
+          step: 3,
+          options: ['Facebook', 'Instagram', 'LinkedIn', 'WhatsApp', 'A friend or family member', 'Google search', 'Other'],
+        },
+        {
+          key: 'message',
+          label: 'Anything else we should know?',
+          type: 'textarea',
+          step: 3,
+          placeholder: 'Gaps in your study history, a previous refusal, a deadline you are working towards…',
+        },
+      ],
+    },
+  },
+  PAYMENT_BLOCK,
+  {
+    type: 'faq',
+    data: {
+      label: 'Before you start',
+      title: 'What happens after you submit',
+      items: [
+        {
+          question: 'What happens to my details?',
+          answer:
+            'They go into our own database and are visible only to our advisors. We do not sell them and we do not pass them to universities until you ask us to submit an application.',
+        },
+        {
+          question: 'What does the consultation cost?',
+          answer:
+            'The career counselling session is €30 / BDT 2,500 and runs for an hour. Every other service is quoted in writing, per service, after we have read your file — nothing is bundled into a fee you did not agree to.',
+        },
+        {
+          question: 'How quickly will I hear back?',
+          answer:
+            'Within one working day. If your intake is imminent, say so in the message field and we will prioritise it.',
+        },
+        {
+          question: 'I am not sure which service I need.',
+          answer:
+            'Tick everything that sounds relevant, or tick nothing at all. The first session is where we work out what is actually worth paying for — and what you can do yourself.',
+        },
+        {
+          question: 'How do I pay once we agree a scope?',
+          answer:
+            'Stage by stage, in writing, before each stage begins — by bKash, Nagad or Rocket, by bank transfer, or by Revolut in euro. The payment details are on this page, above.',
+        },
+      ],
+    },
+  },
+  {
+    type: 'contactDetails',
+    data: { label: 'Direct', title: 'Or reach us directly', body: 'If the form feels like too much, just message us.' },
+  },
+  { type: 'whatsappFloat', data: { label: 'Chat on WhatsApp' } },
+]
+
+/* -------------------------------------------------------------------------- */
 /* The real ISC fee list                                                       */
 /* -------------------------------------------------------------------------- */
 
 export const REAL_SERVICES: Array<{ title: string; slug: string; data: Record<string, any> }> = [
-  {
-    title: 'Free Profile Assessment',
-    slug: 'free-profile-assessment',
-    data: {
-      category: 'Getting started',
-      tag: 'Included',
-      outcome: 'A written read on where you stand',
-      summary: 'A 30-minute call and a written read on which destinations and budgets are realistic for you.',
-      body: 'We look at your transcripts, English level, budget and timeline, and tell you plainly which countries you can realistically get into and afford. You leave with a written summary even if you never use us again — and this call is the door into every other service we sell.',
-      price: 'Free',
-      price_value: 0,
-      currency: 'EUR',
-      duration_weeks: 1,
-      duration: '30 minutes',
-      includes: ['30-minute call', 'Transcript review', 'Budget planning', 'Destination shortlist', 'Written summary'],
-    },
-  },
   {
     title: 'Career Counselling Session',
     slug: 'career-counselling-session',
@@ -667,14 +854,85 @@ export const SOCIAL_SETTINGS = {
   youtube: 'https://www.youtube.com/@InternationalStudyCouncil',
 }
 
-/** Patched into the contact settings — whatsapp becomes the real ISC number. */
+/**
+ * Patched into the contact settings — the real business inbox and the official
+ * WhatsApp business chat link decoded from the ISC WhatsApp QR code
+ * (https://wa.me/message/AQPSXUMTFZ4AI1). The fictional phone is cleared
+ * until a real landline is added in Admin → Site settings.
+ */
 export const CONTACT_PATCH = {
-  whatsapp: '+34602067219',
-  whatsapp_message: "Hi ISC, I'd like a free study-abroad assessment.",
-  /* The seeded phone number is a reserved fictional one — clear it until a
-     real landline is added in Admin → Site settings. */
+  email: 'internationalstudycouncil2025@gmail.com',
   phone: '',
+  whatsapp: '+34602067219',
+  whatsapp_link: 'https://wa.me/message/AQPSXUMTFZ4AI1',
+  whatsapp_message: "Hi ISC, I'd like to book a consultation.",
 }
+
+/* -------------------------------------------------------------------------- */
+/* Build-your-plan page (kept for direct links; no longer in the nav)          */
+/* -------------------------------------------------------------------------- */
+
+export const PLAN_BLOCKS: Array<{ type: string; data: Record<string, any> }> = [
+  {
+    type: 'pageHeader',
+    data: {
+      eyebrow: 'Your plan',
+      title: 'Build your plan',
+      body: 'Nobody needs every service. Pick the blocks that fit where you are, see exactly what it costs, and send it to us when you are ready.',
+    },
+  },
+  {
+    type: 'planBuilder',
+    data: {
+      label: '',
+      title: '',
+      body: '',
+      cta_href: '/apply',
+    },
+  },
+  {
+    type: 'faq',
+    data: {
+      label: 'Questions',
+      title: 'About building a plan',
+      items: [
+        {
+          question: 'Is this the final price?',
+          answer:
+            'It is the list price for each service. Your written quote confirms it, and we will tell you if a service is not worth buying in your situation.',
+        },
+        {
+          question: 'Can I change my plan later?',
+          answer:
+            'Yes. Plans change as students get offers, change their mind about a country, or run out of time. Nothing here locks you in.',
+        },
+        {
+          question: 'What if I pick nothing?',
+          answer:
+            'Then book a consultation. That is genuinely enough for plenty of students — we will tell you what you can do yourself and what is worth paying for.',
+        },
+        {
+          question: 'How is the timeline calculated?',
+          answer:
+            'It is the longest single service in your plan, because we run the work in parallel wherever we can rather than one after another.',
+        },
+      ],
+    },
+  },
+  {
+    type: 'cta',
+    data: {
+      headline: 'Rather just talk it through?',
+      body: 'Book a consultation and we will tell you which blocks are actually worth paying for.',
+      primary_label: 'Book a consultation',
+      primary_href: '/apply',
+      secondary_label: 'See all services',
+      secondary_href: '/services',
+      variant: 'ink',
+    },
+  },
+  { type: 'whatsappFloat', data: { label: 'Chat on WhatsApp' } },
+]
 
 /* -------------------------------------------------------------------------- */
 /* Navigation labels — "Who we are" and "Resources" in every enabled language  */
@@ -694,3 +952,17 @@ export const NAV_TRANSLATIONS: Array<[string, string, string]> = [
   ['ar', 'nav.resources', 'الموارد'],
   ['ru', 'nav.resources', 'Ресурсы'],
 ]
+
+/** The header's call-to-action now speaks "booking" everywhere. */
+export const CTA_TRANSLATIONS: Array<[string, string, string]> = [
+  ['en', 'cta.startApplication', 'Book a consultation'],
+  ['bn', 'cta.startApplication', 'পরামর্শ বুক করুন'],
+  ['es', 'cta.startApplication', 'Reservar una consulta'],
+  ['fr', 'cta.startApplication', 'Réserver une consultation'],
+  ['ar', 'cta.startApplication', 'احجز استشارة'],
+  ['ru', 'cta.startApplication', 'Записаться на консультацию'],
+]
+
+/** The contact page's terms block, aligned with the fee document. */
+export const CONTACT_BODY =
+  "## What we provide\n\nWe provide advice on university selection, applications, funding and student visas. Every service is priced individually and quoted in writing before you commit to it — see the full fee list on the services page.\n\n## What we cannot promise\n\nWe do not control admission decisions or visa outcomes. We will give you an honest assessment of your chances, but no advisor can guarantee an offer or a visa.\n\n## Your responsibilities\n\nYou are responsible for the accuracy of the documents you give us. Providing falsified transcripts or financial evidence can result in an offer being withdrawn and may be a criminal offence.\n\n## Fees\n\nWhere a university pays us a referral fee, it is disclosed on your shortlist. Service fees are refundable only in the circumstances set out in your engagement letter.\n\n## Complaints\n\nIf something goes wrong, tell us first. We will respond within five working days."
