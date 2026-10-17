@@ -24,6 +24,7 @@ import {
   SOCIAL_SETTINGS,
   CONTACT_PATCH,
   CONTACT_BODY,
+  CONTACT_FORM_DATA,
   NAV_TRANSLATIONS,
   CTA_TRANSLATIONS,
 } from './seed-updates'
@@ -290,6 +291,13 @@ const MIGRATIONS: Array<{ id: string; run: () => Promise<void> }> = [
         seo_title: 'Who we are — International Study Council',
         seo_description: 'The mission, vision, core values and team behind International Study Council.',
       })
+    },
+  },
+  {
+    id: '2026-10-17r-contact-header',
+    run: async () => {
+      await patchBlockData('contact', 'pageHeader', { title: 'Book a consultation' })
+      await patchBlockData('contact', 'contactForm', CONTACT_FORM_DATA)
     },
   },
 ]

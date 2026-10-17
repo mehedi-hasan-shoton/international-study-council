@@ -966,3 +966,30 @@ export const CTA_TRANSLATIONS: Array<[string, string, string]> = [
 /** The contact page's terms block, aligned with the fee document. */
 export const CONTACT_BODY =
   "## What we provide\n\nWe provide advice on university selection, applications, funding and student visas. Every service is priced individually and quoted in writing before you commit to it — see the full fee list on the services page.\n\n## What we cannot promise\n\nWe do not control admission decisions or visa outcomes. We will give you an honest assessment of your chances, but no advisor can guarantee an offer or a visa.\n\n## Your responsibilities\n\nYou are responsible for the accuracy of the documents you give us. Providing falsified transcripts or financial evidence can result in an offer being withdrawn and may be a criminal offence.\n\n## Fees\n\nWhere a university pays us a referral fee, it is disclosed on your shortlist. Service fees are refundable only in the circumstances set out in your engagement letter.\n\n## Complaints\n\nIf something goes wrong, tell us first. We will respond within five working days."
+
+/** The contact page's quick form, aligned with the booking language and the
+ *  full destination list. */
+export const CONTACT_FORM_DATA: Record<string, any> = {
+  title: '',
+  body: '',
+  submit_label: 'Send my request',
+  success_message: 'Thank you — your request is in. An advisor will reply within one working day.',
+  fields: [
+    { key: 'name', label: 'Full name', type: 'text', required: true },
+    { key: 'email', label: 'Email', type: 'email', required: true },
+    { key: 'phone', label: 'Phone', type: 'tel', required: false },
+    { key: 'whatsapp', label: 'WhatsApp number', type: 'tel', required: false },
+    {
+      key: 'country',
+      label: 'Preferred destination',
+      type: 'select',
+      options: [
+        'Malaysia', 'Cyprus', 'Hungary', 'Germany', 'United Kingdom', 'Australia', 'France', 'Italy', 'Spain',
+        'Sweden', 'Finland', 'Denmark', 'Switzerland', 'Belgium', 'Austria', 'Czechia', 'Netherlands', 'Canada',
+        'Ireland', 'Poland', 'United Arab Emirates', 'Singapore', 'Japan', 'South Korea', 'Not sure yet',
+      ],
+    },
+    { key: 'level', label: 'Level of study', type: 'select', options: ['Foundation', "Bachelor's", "Master's", 'PhD'] },
+    { key: 'message', label: 'Anything else we should know?', type: 'textarea' },
+  ],
+}

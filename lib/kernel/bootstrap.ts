@@ -19,6 +19,7 @@ import {
   REAL_SERVICES,
   SOCIAL_SETTINGS,
   CONTACT_PATCH,
+  CONTACT_FORM_DATA,
 } from './seed-updates'
 import { NEW_COUNTRIES } from './seed-countries'
 import { UNIVERSITIES_A } from './seed-universities-a'
@@ -410,21 +411,7 @@ const PAGES: Array<{
       },
       {
         type: 'contactForm',
-        data: {
-          title: '',
-          body: '',
-          submit_label: 'Request my assessment',
-          success_message: 'Thank you — your request is in. An advisor will reply within one working day.',
-          fields: [
-            { key: 'name', label: 'Full name', type: 'text', required: true },
-            { key: 'email', label: 'Email', type: 'email', required: true },
-            { key: 'phone', label: 'Phone', type: 'tel', required: false },
-            { key: 'whatsapp', label: 'WhatsApp number', type: 'tel', required: false },
-            { key: 'country', label: 'Preferred destination', type: 'select', options: ['Malaysia', 'Cyprus', 'Hungary', 'Germany', 'United Kingdom', 'Australia', 'Not sure yet'] },
-            { key: 'level', label: 'Level of study', type: 'select', options: ['Foundation', "Bachelor's", "Master's", 'PhD'] },
-            { key: 'message', label: 'Anything else we should know?', type: 'textarea' },
-          ],
-        },
+        data: CONTACT_FORM_DATA,
       },
       {
         type: 'contactDetails',
