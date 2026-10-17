@@ -1007,6 +1007,61 @@ registerBlock({
 })
 
 registerBlock({
+  type: 'payment',
+  label: 'Payment methods',
+  group: 'convert',
+  hint: 'How clients pay — mobile money, bank transfer, Revolut. Editable from the admin.',
+  initial: () => ({
+    label: 'Payment',
+    title: 'How to pay',
+    body: 'Pay stage by stage. Nothing is charged until you have seen the fee in your engagement letter.',
+    methods: [{ name: 'Bank transfer', detail: 'Account name:\nAccount number:\nBank:' }],
+  }),
+  fields: [
+    { key: 'label', label: 'Label', type: 'text', span: 2 },
+    { key: 'title', label: 'Heading', type: 'text', span: 2 },
+    { key: 'body', label: 'Intro', type: 'textarea', span: 2 },
+    {
+      key: 'methods',
+      label: 'Payment methods',
+      type: 'repeater',
+      span: 2,
+      itemLabel: 'name',
+      fields: [
+        { key: 'name', label: 'Method name', type: 'text', span: 2, placeholder: 'bKash / Nagad / Rocket (Bangladesh)' },
+        {
+          key: 'detail',
+          label: 'Account details',
+          type: 'richtext',
+          span: 2,
+          help: 'One line per row. Use new lines, **bold** works.',
+        },
+      ],
+    },
+  ],
+  render: ({ data }) => {
+    const methods = asArray<any>(data.methods).filter((m) => m?.name)
+    if (!methods.length) return null
+    return (
+      <Section className="blk-pay">
+        <SectionHead label={data.label} title={data.title} body={data.body} />
+        <div className="pay-grid">
+          {methods.map((method, index) => (
+            <article className="pay-card" key={index}>
+              <h3 className="pay-card__name">{method.name}</h3>
+              <div className="pay-card__detail prose" dangerouslySetInnerHTML={{ __html: markdown(method.detail) }} />
+            </article>
+          ))}
+        </div>
+        <p className="pay-note">
+          Every payment is confirmed in writing against your engagement letter before any work starts.
+        </p>
+      </Section>
+    )
+  },
+})
+
+registerBlock({
   type: 'advisors',
   label: 'Team',
   group: 'data',
@@ -1368,6 +1423,7 @@ registerBlock({
         category: String(d.category || 'Other services'),
         price: String(d.price || ''),
         priceValue: Number(d.price_value ?? 0),
+        currency: String(d.currency || 'EUR'),
         weeks: Number(d.duration_weeks ?? 0),
         includes: asList(d.includes),
       }

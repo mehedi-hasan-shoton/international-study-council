@@ -90,7 +90,7 @@ export type SiteSettings = {
     address: string
     hours: string
   }
-  social: { linkedin: string; facebook: string; instagram: string }
+  social: { linkedin: string; facebook: string; instagram: string; youtube: string }
   theme: { accent: string; accent_ink: string }
   seo: { default_title: string; default_description: string }
   languages: { enabled: string[]; default: string }

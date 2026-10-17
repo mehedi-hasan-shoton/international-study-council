@@ -55,7 +55,7 @@ export default function NavMenu({
     <header className={`site-head${open ? ' is-open' : ''}`}>
       <div className="wrap site-head__inner">
         <Link className="brand" href={locale === 'en' ? '/' : `/${locale}`} aria-label={siteName}>
-          <IscMark className="brand__logo" label={siteName} />
+          <IscMark className="brand__logo" label={siteName} compact />
           <span className="brand__name">{siteName}</span>
         </Link>
 

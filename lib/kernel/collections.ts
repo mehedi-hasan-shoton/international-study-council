@@ -125,7 +125,7 @@ registerCollection({
   titleKey: 'title',
   slugKey: 'title',
   columns: ['category', 'tag', 'price_value', 'duration_weeks'],
-  initial: () => ({ includes: [], price_value: 0, duration_weeks: 0 }),
+  initial: () => ({ includes: [], price_value: 0, duration_weeks: 0, currency: 'EUR' }),
   fields: [
     { key: 'title', label: 'Service name', type: 'text', span: 2, required: true },
     {
@@ -148,10 +148,18 @@ registerCollection({
     { key: 'duration', label: 'Timeline (as shown)', type: 'text', span: 1, placeholder: '2–4 weeks' },
     {
       key: 'price_value',
-      label: 'Fee in USD',
+      label: 'Fee amount',
       type: 'number',
       span: 1,
       help: 'Used to total a self-built plan. Enter 0 for free services.',
+    },
+    {
+      key: 'currency',
+      label: 'Currency',
+      type: 'select',
+      span: 1,
+      options: CURRENCIES,
+      help: 'The currency the fee amount is in.',
     },
     {
       key: 'duration_weeks',
@@ -224,7 +232,8 @@ registerCollection({
     { key: 'bio', label: 'Short biography', type: 'textarea', span: 2 },
     { key: 'email', label: 'Email', type: 'text', span: 1 },
     { key: 'linkedin', label: 'LinkedIn', type: 'url', span: 1 },
-    { key: 'photo', label: 'Photo', type: 'image', span: 2 },
+    { key: 'photo', label: 'Photo', type: 'image', span: 2, help: 'Shown on the team card. Leave empty to show the intro video instead.' },
+    { key: 'video_url', label: 'Intro video URL', type: 'url', span: 2, placeholder: 'https://www.youtube.com/watch?v=…', help: 'YouTube or Vimeo. Plays on the team card when no photo is set.' },
   ],
 })
 

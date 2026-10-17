@@ -351,7 +351,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
     description: '',
   },
   contact: { email: '', phone: '', whatsapp: '', whatsapp_message: '', address: '', hours: '' },
-  social: { linkedin: '', facebook: '', instagram: '' },
+  social: { linkedin: '', facebook: '', instagram: '', youtube: '' },
   theme: { accent: '#1B48D6', accent_ink: '#0F2E8C' },
   seo: { default_title: '', default_description: '' },
   languages: { enabled: ['en', 'bn', 'es', 'fr', 'ar', 'ru'], default: 'en' },
@@ -577,12 +577,13 @@ export type SearchHit = {
 
 /** Always-available shortcuts, so "apply" or "contact" works before anything is typed. */
 const QUICK_LINKS: Array<{ title: string; subtitle: string; href: string; words: string }> = [
-  { title: 'Start your application', subtitle: 'Three steps, free assessment', href: '/apply', words: 'apply application start enquiry form contact' },
-  { title: 'Build your own plan', subtitle: 'Pick the services you need', href: '/plan', words: 'plan build price cost services choose' },
-  { title: 'All services', subtitle: 'Ten services, five stages', href: '/services', words: 'services sop cv ielts visa career funding fees' },
+  { title: 'Book a consultation', subtitle: 'Three steps, free assessment', href: '/apply', words: 'apply application start booking consultation form contact' },
+  { title: 'Who we are', subtitle: 'Mission, vision and team', href: '/about', words: 'about who mission vision values team' },
+  { title: 'All services', subtitle: 'Seven services, clear fees', href: '/services', words: 'services sop cv ielts visa career funding fees price payment' },
   { title: 'Universities', subtitle: 'Partner institutions', href: '/universities', words: 'universities colleges partners list search' },
   { title: 'Scholarships', subtitle: 'Funding you qualify for', href: '/scholarships', words: 'scholarship funding grant money award' },
   { title: 'Destinations', subtitle: 'Where you can study', href: '/destinations', words: 'countries destinations where abroad map' },
+  { title: 'Resources', subtitle: 'IELTS, posters and videos', href: '/resources', words: 'resources ielts poster videos guides library' },
   { title: 'Guides', subtitle: 'How-to articles', href: '/blog', words: 'guides blog articles help how to' },
   { title: 'Contact us', subtitle: 'Talk to an advisor', href: '/contact', words: 'contact email phone whatsapp talk' },
 ]

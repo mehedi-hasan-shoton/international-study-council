@@ -107,13 +107,15 @@ export async function raw(sql: string, params: any[] = []): Promise<QueryResult>
   return (await driver()).query(sql, params)
 }
 
-/** Ensure the schema exists and the first seed has been applied. Idempotent. */
+/** Ensure the schema exists, the first seed and all content migrations have run. Idempotent. */
 export function ready(): Promise<void> {
   if (!globalRef.__isc_boot) {
     globalRef.__isc_boot = (async () => {
       const { migrate, seed } = await import('./bootstrap')
       await migrate()
       await seed()
+      const { applyContentMigrations } = await import('./content-migrations')
+      await applyContentMigrations()
     })().catch((err) => {
       globalRef.__isc_boot = undefined
       throw err

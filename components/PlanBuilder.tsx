@@ -9,8 +9,34 @@ export type PlanService = {
   category: string
   price: string
   priceValue: number
+  currency: string
   weeks: number
   includes: string[]
+}
+
+/** Symbol per ISO code; unknown codes print the code itself. */
+const CURRENCY_SYMBOLS: Record<string, string> = {
+  EUR: '€',
+  USD: '$',
+  GBP: '£',
+  MYR: 'RM ',
+  AUD: 'A$',
+  CAD: 'C$',
+  BDT: '৳',
+  SGD: 'S$',
+  HUF: 'Ft ',
+  TRY: '₺',
+  AED: 'AED ',
+  CHF: 'CHF ',
+  SEK: 'SEK ',
+  DKK: 'DKK ',
+  INR: '₹',
+}
+export function currencySymbol(code: string): string {
+  return CURRENCY_SYMBOLS[code] || `${code} `
+}
+export function money(amount: number, code: string): string {
+  return `${currencySymbol(code)}${amount.toLocaleString('en-US')}`
 }
 
 export type PlanLabels = {
@@ -167,7 +193,7 @@ export default function PlanBuilder({
           email: form.email,
           whatsapp: form.whatsapp,
           services: chosen.map((service) => service.title).join(', '),
-          plan_total: `USD ${total}`,
+          plan_total: `${money(total, chosen[0]?.currency || 'EUR')}`,
           plan_weeks: String(weeks),
           message: `Self-built plan: ${chosen.map((s) => s.title).join(' + ')}`,
           source: '/plan',
@@ -224,7 +250,7 @@ export default function PlanBuilder({
                       <span className="pb__tile-body">
                         <span className="pb__tile-name">{service.title}</span>
                         <span className="pb__tile-meta">
-                          {service.priceValue > 0 ? `USD ${service.priceValue}` : labels.free}
+                          {service.priceValue > 0 ? money(service.priceValue, service.currency) : labels.free}
                           {service.weeks ? ` · ${service.weeks} ${labels.weeks}` : ''}
                         </span>
                       </span>
@@ -307,7 +333,7 @@ export default function PlanBuilder({
                   />
                 </span>
                 <span className="pb__block-price">
-                  {service.priceValue > 0 ? `USD ${service.priceValue}` : labels.free}
+                  {service.priceValue > 0 ? money(service.priceValue, service.currency) : labels.free}
                 </span>
                 <span className="pb__block-tools">
                   <button
@@ -365,7 +391,7 @@ export default function PlanBuilder({
           </div>
           <div className="pb__metric">
             <span className="pb__metric-value">
-              {total > 0 ? `USD ${total.toLocaleString('en-US')}` : labels.free}
+              {total > 0 ? money(total, chosen[0]?.currency || 'EUR') : labels.free}
             </span>
             <span className="pb__metric-label">{labels.total}</span>
           </div>

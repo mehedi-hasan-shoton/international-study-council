@@ -49,7 +49,8 @@ export const DICTIONARY: Record<Locale, Record<string, string>> = {
     'nav.scholarships': 'Scholarships',
     'nav.services': 'Services',
     'nav.destinations': 'Destinations',
-    'nav.about': 'About',
+    'nav.about': 'Who we are',
+    'nav.resources': 'Resources',
     'nav.contact': 'Contact',
     'nav.guides': 'Guides',
 
@@ -218,7 +219,8 @@ export const DICTIONARY: Record<Locale, Record<string, string>> = {
     'nav.scholarships': 'বৃত্তি',
     'nav.services': 'সেবাসমূহ',
     'nav.destinations': 'গন্তব্য',
-    'nav.about': 'পরিচিতি',
+    'nav.about': 'আমরা কারা',
+    'nav.resources': 'রিসোর্স',
     'nav.contact': 'যোগাযোগ',
     'nav.guides': 'গাইড',
 
@@ -387,6 +389,7 @@ export const DICTIONARY: Record<Locale, Record<string, string>> = {
     'nav.services': 'Servicios',
     'nav.destinations': 'Destinos',
     'nav.about': 'Quiénes somos',
+    'nav.resources': 'Recursos',
     'nav.contact': 'Contacto',
     'nav.guides': 'Guías',
 
@@ -554,7 +557,8 @@ export const DICTIONARY: Record<Locale, Record<string, string>> = {
     'nav.scholarships': 'Bourses',
     'nav.services': 'Services',
     'nav.destinations': 'Destinations',
-    'nav.about': 'À propos',
+    'nav.about': 'Qui sommes-nous',
+    'nav.resources': 'Ressources',
     'nav.contact': 'Contact',
     'nav.guides': 'Guides',
 
@@ -723,6 +727,7 @@ export const DICTIONARY: Record<Locale, Record<string, string>> = {
     'nav.services': 'الخدمات',
     'nav.destinations': 'الوجهات',
     'nav.about': 'من نحن',
+    'nav.resources': 'الموارد',
     'nav.contact': 'اتصل بنا',
     'nav.guides': 'أدلة',
 
@@ -890,7 +895,8 @@ export const DICTIONARY: Record<Locale, Record<string, string>> = {
     'nav.scholarships': 'Стипендии',
     'nav.services': 'Услуги',
     'nav.destinations': 'Страны',
-    'nav.about': 'О нас',
+    'nav.about': 'Кто мы',
+    'nav.resources': 'Ресурсы',
     'nav.contact': 'Контакты',
     'nav.guides': 'Гайды',
 

@@ -4700,51 +4700,45 @@ a.mark:hover .mark__logo {
 }
 
 /* ==========================================================================
-   The ISC mark — blocks fall into place like tetrominoes
+   The ISC logo — vector open book + amber signal arcs, extruded 3D feel
    ========================================================================== */
 
-.isc {
-  --block: clamp(14px, 2.5vw, 23px);
-  --block-gap: clamp(2px, 0.35vw, 3px);
-  display: grid;
-  grid-template-columns: repeat(var(--cols), var(--block));
-  grid-template-rows: repeat(var(--rows), var(--block));
-  gap: var(--block-gap);
-  justify-content: center;
+.iscl {
+  display: block;
+  width: clamp(200px, 30vw, 330px);
+  height: auto;
   margin: 0 auto;
+  overflow: visible;
 }
-.isc__b {
-  grid-column: calc(var(--c) + 1);
-  grid-row: calc(var(--r) + 1);
-  background: var(--tint);
-  box-shadow: inset 0 -2px 0 rgba(31, 40, 54, 0.16);
-  animation: isc-drop 0.5s cubic-bezier(0.34, 0.9, 0.4, 1) both;
-  animation-delay: var(--d);
+.iscl__word {
+  font-family: var(--font-sans, Inter, sans-serif);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  fill: #22334a;
 }
-/* Dropped in from above the viewport, landing with a small overshoot so the
-   blocks read as physical pieces stacking up. */
-@keyframes isc-drop {
-  0% {
-    opacity: 0;
-    transform: translateY(-105vh) scaleY(1.5);
-  }
-  8% {
-    opacity: 1;
-  }
-  70% {
-    transform: translateY(3px) scaleY(0.82);
-  }
-  85% {
-    transform: translateY(-1px) scaleY(1.04);
-  }
-  100% {
-    transform: translateY(0) scaleY(1);
-  }
+.iscl__arc {
+  fill: none;
+  stroke-linecap: round;
 }
-@media (prefers-reduced-motion: reduce) {
-  .isc__b {
-    animation: none;
-  }
+/* The darker arc sitting 4.5px below reads as the signal's thickness. */
+.iscl__arc--depth {
+  stroke: #b96f18;
+  stroke-width: 12;
+}
+.iscl__arc--face {
+  stroke: url(#iscl-amber);
+  stroke-width: 11;
+}
+.iscl__i {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 30px;
+  font-weight: 500;
+  fill: #f6f1e4;
+}
+/* Small sizes: drop the wordmark ring, keep the emblem. */
+.iscl--compact .iscl__word {
+  display: none;
 }
 
 /* --------------------------- centred hero variant ------------------------ */
@@ -6385,73 +6379,62 @@ body::before {
 }
 
 /* ==========================================================================
-   ISC mark — chunky blocks, letters falling in one after another
+   ISC logo entrance — the signal arcs draw in, the book drops onto the page
    ========================================================================== */
 
-.isc {
-  display: block;
-  width: clamp(210px, 28vw, 400px);
-  height: auto;
-  margin: 0 auto;
-  overflow: visible;
+.iscl--animate .iscl__arc--face {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: iscl-draw 0.85s cubic-bezier(0.45, 0.9, 0.4, 1) forwards;
+  animation-delay: var(--d, 0ms);
 }
-.isc__letter {
+@keyframes iscl-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.iscl--animate .iscl__book {
   transform-box: fill-box;
   transform-origin: center;
+  animation: iscl-book-drop 0.7s cubic-bezier(0.3, 0.9, 0.35, 1) both;
+  animation-delay: 480ms;
 }
-
-.isc--animate .isc__letter {
-  animation: isc-fall 0.6s cubic-bezier(0.3, 0.9, 0.35, 1) both;
-  animation-delay: calc(var(--i) * 290ms);
-}
-/* Each letter drops the height of the viewport, lands with a squash, settles. */
-@keyframes isc-fall {
+/* The book falls in from above, lands with a small settle — the extrusion
+   and the shadow do the rest of the physical work. */
+@keyframes iscl-book-drop {
   0% {
     opacity: 0;
-    transform: translateY(-17px) rotate(-6deg);
+    transform: translateY(-16px) rotate(-3deg);
   }
-  6% {
+  60% {
     opacity: 1;
-  }
-  68% {
-    transform: translateY(0.42px) rotate(1.4deg) scaleY(0.9);
-  }
-  84% {
-    transform: translateY(-0.2px) rotate(-0.5deg) scaleY(1.03);
+    transform: translateY(1.5px) rotate(0.6deg);
   }
   100% {
-    transform: translateY(0) rotate(0) scaleY(1);
+    transform: translateY(0) rotate(0);
   }
 }
 
-/* Once all three have landed the wordmark hops as one piece. */
-.isc--animate {
-  transform-origin: center;
-  animation: isc-hop 0.56s cubic-bezier(0.3, 0.9, 0.4, 1) both;
-  animation-delay: 1180ms;
+.iscl--animate .iscl__word {
+  animation: iscl-fade 0.8s ease both;
+  animation-delay: 850ms;
 }
-@keyframes isc-hop {
-  0% {
-    transform: translateY(0) scale(1);
+@keyframes iscl-fade {
+  from {
+    opacity: 0;
   }
-  26% {
-    transform: translateY(-0.42px) scale(1.045);
-  }
-  52% {
-    transform: translateY(0) scale(0.985);
-  }
-  72% {
-    transform: translateY(-0.14px) scale(1.012);
-  }
-  100% {
-    transform: translateY(0) scale(1);
+  to {
+    opacity: 1;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .isc--animate,
-  .isc--animate .isc__letter {
+  .iscl--animate .iscl__arc--face,
+  .iscl--animate .iscl__book,
+  .iscl--animate .iscl__word {
     animation: none;
+    stroke-dashoffset: 0;
   }
 }
 
@@ -6505,6 +6488,13 @@ body::before {
   font-size: 0.8125rem;
   letter-spacing: 0.01em;
   color: var(--fg);
+}
+/* The links sit dead centre, so below ~1520px the wordmark steps aside and
+   the logo mark carries the brand on its own. */
+@media (max-width: 1520px) {
+  .brand__name {
+    display: none;
+  }
 }
 
 /* Links sit dead centre, like the reference. */
@@ -6888,4 +6878,82 @@ body::before {
   .dm__vs-card--us .dm__vs-bar span {
     width: 100%;
   }
+}
+
+/* ==========================================================================
+   Payment block — mobile money, bank transfer, Revolut
+   ========================================================================== */
+
+.blk-pay .pay-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+.pay-card {
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+}
+.pay-card__name {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+}
+.pay-card__detail {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--fg-muted);
+}
+.pay-card__detail strong {
+  color: var(--fg);
+}
+.pay-note {
+  margin-top: 18px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: var(--fg-muted);
+}
+
+/* ==========================================================================
+   Team card — intro video plays when no photo is set
+   ========================================================================== */
+
+.a-card__photo--video {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--bg-soft);
+  border-radius: var(--radius);
+}
+.a-card__photo--video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ==========================================================================
+   Footer — YouTube module row
+   ========================================================================== */
+
+.site-footer__youtube {
+  margin-top: 2px;
+}
+.site-footer__youtube a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: var(--fg-muted);
+  transition: color 0.16s var(--ease);
+}
+.site-footer__youtube a:hover {
+  color: var(--fg);
 }

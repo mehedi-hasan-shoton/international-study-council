@@ -9,6 +9,19 @@
 import { driver, raw, type Row } from './db'
 import { id } from './ids'
 import { DICTIONARY } from './dictionary'
+import {
+  HOME_BLOCKS,
+  ABOUT_BLOCKS,
+  SERVICES_BLOCKS,
+  RESOURCES_PAGE,
+  REAL_SERVICES,
+  SOCIAL_SETTINGS,
+  CONTACT_PATCH,
+} from './seed-updates'
+import { NEW_COUNTRIES } from './seed-countries'
+import { UNIVERSITIES_A } from './seed-universities-a'
+import { UNIVERSITIES_B } from './seed-universities-b'
+import { UNIVERSITIES_C } from './seed-universities-c'
 
 const DDL = `
 create table if not exists users (
@@ -146,16 +159,12 @@ const SETTINGS: Record<string, any> = {
      The WhatsApp number is in a reserved fictional range and cannot reach anyone. */
   contact: {
     email: 'hello@internationalstudycouncil.com',
-    phone: '+1 202 555 0143',
-    whatsapp: '+12025550143',
-    whatsapp_message: "Hi ISC, I'd like a free study-abroad assessment.",
+    ...CONTACT_PATCH,
     address: '',
     hours: '',
   },
   social: {
-    linkedin: 'https://www.linkedin.com/company/international-study-council/',
-    facebook: 'https://www.facebook.com/internationalstudycouncil',
-    instagram: '',
+    ...SOCIAL_SETTINGS,
   },
   theme: {
     accent: '#1B48D6',
@@ -187,160 +196,11 @@ const PAGES: Array<{
     title: 'Home',
     seo_title: 'International Study Council — Study abroad, made clear',
     seo_description:
-      'Independent advisors for university admission, scholarships and student visas. Ten services, priced per stage. Free assessment.',
+      'Independent advisors for university admission, scholarships and student visas. Services priced per stage. Free assessment.',
     show_in_nav: false,
     nav_label: 'Home',
     nav_order: 0,
-    blocks: [
-      {
-        type: 'hero',
-        data: {
-          eyebrow: 'International Study Council',
-          headline: 'There are many consultants.\nThis one is yours.',
-          body: 'Tell us where you want to go and what you can afford. We map the universities, the funding and the visa route that actually fits you.',
-          primary_label: 'Start your application',
-          primary_href: '/apply',
-          secondary_label: 'Build your own plan',
-          secondary_href: '/plan',
-          show_mark: true,
-          show_search: true,
-          footnote: 'Free assessment. No fees until you hold an offer.',
-          variant: 'mark',
-        },
-      },
-      {
-        type: 'scrolly',
-        data: {
-          label: '',
-          title: '',
-          body: '',
-          service_limit: 6,
-          sections: [
-            {
-              id: 'services',
-              label: 'Services',
-              title: 'What we do',
-              body: 'Ten services across five stages, priced individually. Take one, take all, or take none — the assessment is free either way.',
-              points: [
-                'Getting started — assessment, career planning, university matching',
-                'Applications — SOP, CV, submission',
-                'Funding — scholarships and grants you actually qualify for',
-                'English & career — IELTS, PTE and interview preparation',
-                'Visa & travel — the visa file and everything after it',
-              ],
-              cta_label: 'See all ten services',
-              cta_href: '/services',
-            },
-            {
-              id: 'process',
-              label: 'How it works',
-              title: 'Four steps, roughly six weeks',
-              body: 'We run the work in parallel wherever we can, so the timeline is set by the longest single piece rather than the sum of them.',
-              points: [
-                'Assessment — a 30-minute call, and an honest read on what is realistic',
-                'Shortlist — five to eight programmes with total cost and admission odds',
-                'Application — SOP, CV and submission, with scholarship forms filed alongside',
-                'Visa & arrival — the visa file, then accommodation and a briefing',
-              ],
-              cta_label: 'Build your own plan',
-              cta_href: '/plan',
-            },
-            {
-              id: 'search',
-              label: 'Search',
-              title: 'Search your destination',
-              body: 'One search box covers every university, scholarship and guide on the site. Add filters to narrow by country, level or discipline.',
-              points: [
-                'Search everything at once — institutions, funding, guides',
-                'Filter by country, degree level and discipline',
-                'Press ⌘K anywhere on the site',
-              ],
-              cta_label: 'Browse universities',
-              cta_href: '/universities',
-            },
-            {
-              id: 'map',
-              label: 'Global reach',
-              title: 'Where we can take you',
-              body: 'A country lights up once the full service set is running there. Countries still being set up are shown half-lit, so you can see where we are heading.',
-              points: [
-                'Six countries live, eight more being set up',
-                'Every destination page covers tuition, living costs and visa rules',
-                'No destination we cannot support end to end',
-              ],
-              cta_label: 'All destinations',
-              cta_href: '/destinations',
-            },
-            {
-              id: 'apply',
-              label: 'Apply',
-              title: 'Talk to an advisor',
-              body: 'Three short steps, nothing charged and nothing committed. An advisor reads it and replies within one working day.',
-              points: [
-                'About you — who we are advising and how to reach you',
-                'Your plans — where, what level, what budget',
-                'How we can help — tick the services you want',
-              ],
-              cta_label: 'Start your application',
-              cta_href: '/apply',
-            },
-            {
-              id: 'why',
-              label: 'Why us',
-              title: 'Why students pick us',
-              body: 'Most agencies sell you a university. We sell you a decision you can defend — and we tell you when the answer is not to go.',
-              points: [
-                'We say no when we should',
-                'The price is the price',
-                'One advisor, start to finish',
-                'We publish our refusals',
-              ],
-              cta_label: 'Start your application',
-              cta_href: '/apply',
-            },
-          ],
-        },
-      },
-      {
-        type: 'values',
-        data: {
-          label: 'Boundaries',
-          title: "What we don't do",
-          body: 'Most of this industry runs on promises it cannot keep. Here is where we draw the line.',
-          items: [
-            {
-              title: 'No guaranteed admission',
-              body: 'Nobody can promise an offer, and anyone who does is lying to you. We give you a probability and the reasoning behind it.',
-            },
-            {
-              title: 'No buying your way in',
-              body: 'We do not forge transcripts, invent financial evidence, or pay anyone off. If you ask, we will decline and end the engagement.',
-            },
-            {
-              title: 'No silence after you pay',
-              body: 'You get a named advisor, a written scope and a reply within one working day. We do not disappear once the invoice clears.',
-            },
-            {
-              title: 'No undisclosed commission',
-              body: 'Where a university pays us for a referral, it is printed on your shortlist next to that university. Always.',
-            },
-          ],
-        },
-      },
-      {
-        type: 'cta',
-        data: {
-          headline: 'Start with the free assessment.',
-          body: 'Thirty minutes, no obligation. You leave with a shortlist and a realistic budget — whether or not you use us.',
-          primary_label: 'Start your application',
-          primary_href: '/apply',
-          secondary_label: 'See the services',
-          secondary_href: '/services',
-          variant: 'ink',
-        },
-      },
-      { type: 'whatsappFloat', data: { label: 'Chat on WhatsApp' } },
-    ],
+    blocks: HOME_BLOCKS,
   },
   {
     slug: 'apply',
@@ -584,9 +444,10 @@ const PAGES: Array<{
     seo_title: 'Build your own study-abroad plan — International Study Council',
     seo_description:
       'Pick the services you actually need, see the cost and timeline update as you build, and send the plan to an advisor.',
-    show_in_nav: true,
     nav_label: 'Build a plan',
-    nav_order: 1,
+    nav_order: 9,
+    show_in_nav: false,
+    /* kept for direct links only */
     blocks: [
       {
         type: 'pageHeader',
@@ -744,173 +605,27 @@ const PAGES: Array<{
     show_in_nav: true,
     nav_label: 'Services',
     nav_order: 4,
-    blocks: [
-      {
-        type: 'pageHeader',
-        data: {
-          eyebrow: 'Services',
-          title: 'What we actually do',
-          body: 'Ten services across the whole journey — from working out what to study, to landing with your keys in hand. Priced per stage, so you only pay for the parts you need.',
-        },
-      },
-      {
-        type: 'serviceList',
-        data: {
-          label: 'Service catalogue',
-          title: '',
-          body: '',
-          limit: 24,
-          columns: '3',
-          grouped: true,
-        },
-      },
-      {
-        type: 'priceTable',
-        data: {
-          label: 'Fees',
-          title: 'What each service costs',
-          body: 'Every fee is agreed in writing before any work starts. Nothing here is a subscription and nothing renews on its own.',
-          show_includes: true,
-        },
-      },
-      {
-        type: 'steps',
-        data: {
-          label: 'Timeline',
-          title: 'A typical intake, week by week',
-          items: [
-            { title: 'Week 1', body: 'Assessment call, document checklist, budget confirmed.' },
-            { title: 'Week 2–3', body: 'Shortlist written up. You approve the final five programmes.' },
-            { title: 'Week 4–6', body: 'SOP and CV prepared, applications submitted, scholarship forms filed in parallel.' },
-            { title: 'Week 7+', body: 'Offers arrive. We compare them on total cost and help you accept.' },
-            { title: 'After acceptance', body: 'Visa file, accommodation, insurance, flights and pre-departure briefing.' },
-          ],
-        },
-      },
-      {
-        type: 'faq',
-        data: {
-          label: 'Questions',
-          title: 'Before you buy anything',
-          items: [
-            {
-              question: 'Do I have to buy the whole package?',
-              answer:
-                'No. Every service is priced on its own. Plenty of students take the free assessment and the SOP review and do the rest themselves — that is a perfectly good outcome for us.',
-            },
-            {
-              question: 'Can you write my SOP for me?',
-              answer:
-                'We draft it with you, from an interview where we extract your material. We do not sell pre-written statements, and we run every draft through a plagiarism and AI-detection check before you submit.',
-            },
-            {
-              question: 'What if my application is refused or my visa is rejected?',
-              answer:
-                'A refusal is not the end. We review the refusal reason, tell you honestly whether a reapplication is worth it, and support the second attempt at no extra service fee.',
-            },
-            {
-              question: 'Do you guarantee a visa?',
-              answer:
-                'Nobody can. We guarantee that your file is complete, compliant and built to the current embassy checklist — which is the part that is actually in our control.',
-            },
-            {
-              question: 'How do I pay?',
-              answer:
-                'Stage by stage, in writing, before each stage begins. The assessment is free, and nothing is charged until you have seen the fee in your engagement letter.',
-            },
-          ],
-        },
-      },
-      {
-        type: 'cta',
-        data: {
-          headline: 'Not sure which stage you need?',
-          body: 'Tell us where you are in the process. We will tell you what is worth paying for and what you can do yourself.',
-          primary_label: 'Start your application',
-          primary_href: '/apply',
-          secondary_label: 'See scholarships',
-          secondary_href: '/scholarships',
-          variant: 'ink',
-        },
-      },
-    ],
+    blocks: SERVICES_BLOCKS,
+  },
+  {
+    slug: 'resources',
+    title: RESOURCES_PAGE.title,
+    seo_title: RESOURCES_PAGE.seo_title,
+    seo_description: RESOURCES_PAGE.seo_description,
+    show_in_nav: RESOURCES_PAGE.show_in_nav,
+    nav_label: RESOURCES_PAGE.nav_label,
+    nav_order: RESOURCES_PAGE.nav_order,
+    blocks: RESOURCES_PAGE.blocks,
   },
   {
     slug: 'about',
-    title: 'About',
-    seo_title: 'About — International Study Council',
-    seo_description: 'Who we are, how we are funded and why we work the way we do.',
-    show_in_nav: false,
-    nav_label: 'About',
-    nav_order: 9,
-    blocks: [
-      {
-        type: 'pageHeader',
-        data: {
-          eyebrow: 'About',
-          title: 'Independent advice, in writing',
-          body: 'International Study Council was founded in 2016 to give students the comparison nobody else would put on paper.',
-        },
-      },
-      {
-        type: 'imageText',
-        data: {
-          label: 'How we work',
-          title: 'We put the full comparison in front of you',
-          body: 'Most students never see the real numbers. We write them down: total tuition, living costs, scholarship eligibility, visa financial requirement, and the honest probability of admission for your profile.\n\nWe are paid by students, not by universities. Where a university does pay us a referral, you will see it stated on your shortlist.',
-          bullets: [
-            'Written shortlists with total cost of attendance',
-            'Commission disclosure on every recommendation',
-            'No fees until you hold an offer',
-          ],
-          media: img('photo-1523240795612-9a054b0db644'),
-          image_side: 'right',
-        },
-      },
-      {
-        type: 'stats',
-        data: {
-          label: 'Track record',
-          items: [
-            { value: '2016', label: 'Founded' },
-            { value: '1,800+', label: 'Students placed' },
-            { value: '96%', label: 'Visa approval' },
-            { value: '12', label: 'Countries' },
-          ],
-        },
-      },
-      {
-        type: 'advisors',
-        data: { label: 'Team', title: 'Advisors', limit: 6 },
-      },
-      {
-        type: 'marquee',
-        data: {
-          label: 'Partner institutions',
-          items: [
-            { text: "Taylor's University" },
-            { text: 'Sunway University' },
-            { text: 'Monash Malaysia' },
-            { text: 'University of Nicosia' },
-            { text: 'University of Debrecen' },
-            { text: 'Coventry University' },
-            { text: 'University of Wollongong' },
-          ],
-        },
-      },
-      {
-        type: 'cta',
-        data: {
-          headline: 'Come and ask us the hard questions.',
-          body: 'We would rather talk you out of the wrong programme than sell you the right one.',
-          primary_label: 'Book an assessment',
-          primary_href: '/contact',
-          secondary_label: 'Our services',
-          secondary_href: '/services',
-          variant: 'ink',
-        },
-      },
-    ],
+    title: 'Who we are',
+    seo_title: 'Who we are — International Study Council',
+    seo_description: 'The mission, vision, core values and team behind International Study Council.',
+    show_in_nav: true,
+    nav_label: 'Who we are',
+    nav_order: 1,
+    blocks: ABOUT_BLOCKS,
   },
   {
     slug: 'contact',
@@ -919,7 +634,7 @@ const PAGES: Array<{
     seo_description: 'Book a free study-abroad assessment, or reach us on WhatsApp.',
     show_in_nav: true,
     nav_label: 'Contact',
-    nav_order: 5,
+    nav_order: 6,
     blocks: [
       {
         type: 'pageHeader',
@@ -1517,168 +1232,7 @@ const SCHOLARSHIPS = [
   },
 ]
 
-const SERVICES = [
-  {
-    title: 'Free Profile Assessment',
-    slug: 'free-profile-assessment',
-    data: {
-      category: 'Getting started',
-      tag: 'Included',
-      outcome: 'A written read on where you stand',
-      summary: 'A 30-minute call and a written read on which destinations and budgets are realistic for you.',
-      body: 'We look at your transcripts, English level, budget and timeline, and tell you plainly which countries you can realistically get into and afford. You leave with a written summary even if you never use us again.',
-      price: 'Free',
-      price_value: 0,
-      duration_weeks: 1,
-      duration: '30 minutes',
-      includes: ['Transcript review', 'Budget planning', 'Destination shortlist', 'Written summary'],
-    },
-  },
-  {
-    title: 'Career Counselling & Planning',
-    slug: 'career-counselling-planning',
-    data: {
-      category: 'Getting started',
-      tag: 'Stage 0',
-      outcome: 'A five-year plan you actually believe in',
-      summary: 'Work out what you want to do before you choose what to study — and which degree actually gets you there.',
-      body: "Most students pick a degree first and a career second, then spend three years discovering the mismatch. We do it the other way round.\n\nWe start from what you are good at and what you want your life to look like at 30, then work backwards to the qualification, the country and the intake that gets you there. Where the honest answer is that a degree is not the right next step, we will say so.\n\n## What we cover\n\n- Aptitude and interest mapping, not a personality quiz\n- Which careers actually exist in your target country, and what they pay\n- Whether a bachelors, a diploma or a certification is the right entry point\n- Realistic pathways for career changers and mature students",
-      price: 'USD 90',
-      price_value: 90,
-      duration_weeks: 2,
-      duration: '2 sessions',
-      includes: ['Two 60-minute sessions', 'Aptitude and interest mapping', 'Career and salary research', 'Five-year written plan'],
-    },
-  },
-  {
-    title: 'University & Course Matching',
-    slug: 'university-course-matching',
-    data: {
-      category: 'Getting started',
-      tag: 'Stage 1',
-      outcome: 'A shortlist you can compare on numbers',
-      summary: 'A written shortlist of 5–8 programmes with total cost of attendance and admission probability.',
-      body: 'We compare programmes on the numbers that matter — total tuition across the whole degree, living costs, scholarship eligibility, visa financial requirement and how your grades compare to the last intake. Commission, where it exists, is disclosed on the shortlist.',
-      price: 'From USD 150',
-      price_value: 150,
-      duration_weeks: 2,
-      duration: '1–2 weeks',
-      includes: ['5–8 programme shortlist', 'Total cost of attendance', 'Scholarship eligibility', 'Commission disclosure'],
-    },
-  },
-  {
-    title: 'Statement of Purpose (SOP)',
-    slug: 'statement-of-purpose',
-    data: {
-      category: 'Applications & documents',
-      tag: 'Stage 2',
-      outcome: 'A submission-ready statement in your own voice',
-      summary: 'Drafted with you, not for you — then edited line by line until it sounds like a person wrote it.',
-      body: "Admissions officers read hundreds of statements and almost all of them say the same three things. We work from your material, not a template, and the goal is a statement that answers the question the officer is actually asking.\n\n## How the process runs\n\n1. A 45-minute interview where we extract the material — the specific moments, the problems you could not solve, the reason this programme and not another.\n2. A structural draft that we write with you.\n3. Two rounds of line editing with tracked changes.\n4. A final plagiarism and AI-detection check before you submit.\n\nWe also prepare the shorter supporting statements — motivation letters, diversity statements, and the 500-word 'why this university' answers.",
-      price: 'From USD 120',
-      price_value: 120,
-      duration_weeks: 2,
-      duration: '1–2 weeks',
-      includes: ['Extraction interview', 'Full draft', 'Two revision rounds', 'Plagiarism and AI check'],
-    },
-  },
-  {
-    title: 'CV & Résumé Writing',
-    slug: 'cv-resume-writing',
-    data: {
-      category: 'Applications & documents',
-      tag: 'Stage 2',
-      outcome: 'An academic CV and a work résumé, both ATS-safe',
-      summary: 'Two documents, because a university and an employer want different things from the same life.',
-      body: "A university wants to see academic trajectory, research exposure and fit for the programme. An employer wants impact, numbers and outcomes. One document cannot do both.\n\nWe produce both, in the format each audience expects, and make sure they survive automated screening.\n\n## What we do\n\n- Rewrite your experience in outcome language rather than duty language\n- Format to the academic conventions of your target country\n- Build a clean, ATS-parsable layout — no tables, no columns, no graphics\n- Prepare a matching LinkedIn profile summary so the two agree with each other",
-      price: 'USD 80',
-      price_value: 80,
-      duration_weeks: 1,
-      duration: '5 days',
-      includes: ['Academic CV', 'Work résumé', 'ATS-safe formatting', 'LinkedIn summary'],
-    },
-  },
-  {
-    title: 'Application Submission',
-    slug: 'application-submission',
-    data: {
-      category: 'Applications & documents',
-      tag: 'Stage 2',
-      outcome: 'Every application filed, tracked and acknowledged',
-      summary: 'We complete the portals, upload the documents, pay the fees and chase every acknowledgement.',
-      body: "Most rejections that are not about grades are about paperwork — a transcript uploaded in the wrong format, a reference request sent to a spam folder, an application fee that never cleared.\n\nWe run the submission itself. You keep the login, you see everything we file, and you get a status board that shows exactly what is outstanding and who is holding it up.\n\n## What we handle\n\n- Portal creation and completion for each university\n- Document formatting, translation coordination and certified-copy arrangements\n- Reference requests, with reminders sent on your behalf\n- Application fee payment (fees are passed through at cost)\n- Tracking every acknowledgement and following up when one is missing",
-      price: 'From USD 300',
-      price_value: 300,
-      duration_weeks: 6,
-      duration: '3–6 weeks',
-      includes: ['Portal completion', 'Document upload and formatting', 'Reference chasing', 'Offer tracking board'],
-    },
-  },
-  {
-    title: 'Scholarship & Funding Guidance',
-    slug: 'scholarship-funding-guidance',
-    data: {
-      category: 'Funding',
-      tag: 'Stage 2',
-      outcome: 'Every award you actually qualify for, filed',
-      summary: 'We map the awards you genuinely qualify for, and file the ones that need separate applications.',
-      body: 'Most students miss funding because they only look at university pages. We track government schemes, consortium programmes and early-application grants alongside the automatic merit awards that come with your admission file.',
-      price: 'From USD 200',
-      price_value: 200,
-      duration_weeks: 4,
-      duration: '2–4 weeks',
-      includes: ['Eligibility screening', 'Deadline calendar', 'Separate application filing', 'Interview preparation'],
-    },
-  },
-  {
-    title: 'IELTS & English Test Preparation',
-    slug: 'ielts-preparation',
-    data: {
-      category: 'English & career',
-      tag: 'Add-on',
-      outcome: 'The band score your programme actually needs',
-      summary: 'Small-group or one-to-one preparation aimed at the specific score your target programme requires.',
-      body: "Generic IELTS courses teach to a generic band. You need a specific number for a specific programme, and usually a minimum in one particular skill.\n\nWe start from your diagnostic, work out which band each section needs to reach, and build the sessions around closing that gap.\n\n## Format\n\n- Twelve sessions, small group (maximum six) or one-to-one\n- Two full mock tests under exam conditions, marked with written feedback\n- Speaking practice recorded and reviewed\n- We also prepare students for PTE, TOEFL and Duolingo where a university accepts them",
-      price: 'From USD 180',
-      price_value: 180,
-      duration_weeks: 8,
-      duration: '6–8 weeks',
-      includes: ['Diagnostic test', '12 sessions', 'Two marked mock tests', 'Speaking recordings'],
-    },
-  },
-  {
-    title: 'Visa Application',
-    slug: 'visa-application',
-    data: {
-      category: 'Visa & travel',
-      tag: 'Stage 3',
-      outcome: 'A complete, compliant visa file',
-      summary: 'The full visa file, built to the embassy specification, plus a mock interview before the real one.',
-      body: "This is where applications are won and lost. The financial evidence requirement is set by the government, not the university, and it changes every year.\n\nWe build the file to the exact specification for your destination — seasoned funds, correct account types, documented sponsors — and we do not submit until it is right. Then we run you through the interview questions until you are bored of them.\n\n## Included\n\n- Document file built to the current embassy checklist\n- Financial evidence review (seasoning period, account type, sponsor documentation)\n- Appointment booking and fee payment guidance\n- Two mock interviews with written feedback\n- Support if there is a refusal and you want to reapply",
-      price: 'From USD 250',
-      price_value: 250,
-      duration_weeks: 4,
-      duration: '2–4 weeks',
-      includes: ['Document file build', 'Financial evidence check', 'Two mock interviews', 'Appointment booking'],
-    },
-  },
-  {
-    title: 'Pre-Departure Support',
-    slug: 'pre-departure-support',
-    data: {
-      category: 'Visa & travel',
-      tag: 'Stage 4',
-      outcome: 'You land knowing where your keys are',
-      summary: 'Accommodation, insurance, banking, airport pickup and a briefing before you fly.',
-      body: "The week before departure is when students get scammed. Fake landlords, unlicensed agents, accommodation that does not exist.\n\nWe help you choose accommodation you can actually afford from a vetted list, set up the practicalities before you land, and put you in a group with other students heading to the same city.\n\n## What we arrange\n\n- Accommodation shortlist with verified landlords or university halls\n- Student insurance, bank account and SIM card set up in advance\n- Airport pickup coordination for arrival day\n- Pre-departure briefing covering money, safety, culture and what to pack\n- A group chat with your cohort so nobody arrives alone",
-      price: 'From USD 100',
-      price_value: 100,
-      duration_weeks: 3,
-      duration: '2–3 weeks',
-      includes: ['Vetted accommodation list', 'Insurance and banking', 'Airport pickup', 'Pre-departure briefing'],
-    },
-  },
-]
+const SERVICES = REAL_SERVICES
 
 const COUNTRIES = [
   {
@@ -2043,10 +1597,10 @@ export async function seed(): Promise<void> {
     rows.map((row) => ({ title: row.name, slug: row.slug, data: row.data }))
 
   const collections: Array<[string, Array<{ title: string; slug: string; data: Record<string, any> }>]> = [
-    ['universities', named(UNIVERSITIES)],
+    ['universities', named([...UNIVERSITIES, ...UNIVERSITIES_A, ...UNIVERSITIES_B, ...UNIVERSITIES_C])],
     ['scholarships', named(SCHOLARSHIPS)],
     ['services', SERVICES],
-    ['countries', named(COUNTRIES)],
+    ['countries', named([...COUNTRIES, ...NEW_COUNTRIES])],
     ['advisors', ADVISORS],
     ['posts', POSTS],
   ]

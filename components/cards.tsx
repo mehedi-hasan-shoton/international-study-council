@@ -113,12 +113,32 @@ export function CountryCard({ entry, i18n }: { entry: Entry; i18n: I18n }) {
   )
 }
 
+/** YouTube / Vimeo watch links become embeddable player URLs. */
+function videoEmbed(url: string): string {
+  const yt = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,})/)
+  if (yt) return `https://www.youtube.com/embed/${yt[1]}`
+  const vimeo = url.match(/vimeo\.com\/(\d+)/)
+  if (vimeo) return `https://player.vimeo.com/video/${vimeo[1]}`
+  return url
+}
+
 export function AdvisorCard({ entry }: { entry: Entry }) {
   const d = entry.data || {}
+  const video = String(d.video_url || '')
   return (
     <article className="card a-card">
       {d.photo ? (
         <Media src={d.photo} alt={entry.title} ratio="1 / 1" className="a-card__photo" />
+      ) : video ? (
+        <div className="a-card__photo a-card__photo--video">
+          <iframe
+            src={videoEmbed(video)}
+            title={`${entry.title} — intro video`}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            loading="lazy"
+          />
+        </div>
       ) : (
         <div className="a-card__photo a-card__photo--blank" aria-hidden="true">
           <span>{entry.title.slice(0, 1)}</span>
@@ -132,6 +152,11 @@ export function AdvisorCard({ entry }: { entry: Entry }) {
         {d.linkedin ? (
           <a href={d.linkedin} target="_blank" rel="noopener noreferrer">
             LinkedIn
+          </a>
+        ) : null}
+        {video ? (
+          <a href={video} target="_blank" rel="noopener noreferrer">
+            Watch video
           </a>
         ) : null}
       </div>
