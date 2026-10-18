@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { dashboardStats, listLeads, listPages } from '@/lib/kernel/content'
 import { allCollections } from '@/lib/kernel/types'
 import { countEntries } from '@/lib/kernel/content'
+import { storageMode } from '@/lib/kernel/storage'
 import '@/lib/kernel/collections'
 
 export const dynamic = 'force-dynamic'
@@ -35,6 +36,26 @@ export default async function AdminDashboard() {
       </div>
 
       <div className="adm-body">
+        {storageMode() === 'local' && process.env.VERCEL ? (
+          <div className="adm-banner">
+            <div>
+              <strong>Image uploads are not configured yet.</strong>
+              <p>
+                This deployment has no file storage, so uploading a picture from any page will fail.
+                In Vercel open <b>Storage → Create → Blob</b>, connect it to this project, then
+                redeploy. It takes about three minutes and only has to be done once.
+              </p>
+            </div>
+            <a
+              className="adm-btn adm-btn--sm"
+              href="https://vercel.com/international-study-council/international-study-council/stores"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Open Vercel storage ↗
+            </a>
+          </div>
+        ) : null}
         <div className="adm-grid">
           <div className="adm-stat">
             <span className="adm-stat__value">{stats.newLeads}</span>

@@ -12,7 +12,7 @@ import { NextResponse } from 'next/server'
 export const dynamic = 'force-dynamic'
 
 const REQUIRED = ['DATABASE_URL', 'AUTH_SECRET'] as const
-const OPTIONAL = ['SEED_ADMIN_EMAIL', 'SEED_ADMIN_PASSWORD'] as const
+const OPTIONAL = ['SEED_ADMIN_EMAIL', 'SEED_ADMIN_PASSWORD', 'BLOB_READ_WRITE_TOKEN'] as const
 
 export async function GET() {
   const present = (key: string) => Boolean(process.env[key]?.trim())
@@ -23,11 +23,25 @@ export async function GET() {
 
   const missing = REQUIRED.filter((key) => !env[key])
 
+  /* Uploads need Vercel Blob on serverless; without the token the filesystem
+     is read-only, so say so plainly instead of failing at the first upload. */
+  const blob = present('BLOB_READ_WRITE_TOKEN')
+  const storage = {
+    mode: blob ? 'blob' : 'local',
+    uploads: blob ? 'ready' : Boolean(process.env.VERCEL) ? 'not configured' : 'local disk (development)',
+    hint: blob
+      ? null
+      : Boolean(process.env.VERCEL)
+        ? 'Admin uploads will fail until Vercel Blob is connected: Vercel → Storage → Create → Blob → Connect to Project, then redeploy.'
+        : null,
+  }
+
   return NextResponse.json(
     {
       ok: missing.length === 0,
       env,
       missing,
+      storage,
       runtime: {
         vercel: Boolean(process.env.VERCEL),
         nodeEnv: process.env.NODE_ENV || null,
