@@ -4,7 +4,7 @@ import AdminLogin from '@/components/admin/AdminLogin'
 import AdminNav from '@/components/admin/AdminNav'
 import SignOutButton from '@/components/admin/SignOutButton'
 import { currentUser } from '@/lib/kernel/auth'
-import { countEntries, getSettings, listLeads, listPages } from '@/lib/kernel/content'
+import { countEntries, getSettings, listLeads, listMedia, listPages } from '@/lib/kernel/content'
 import { allCollections } from '@/lib/kernel/types'
 import '@/lib/kernel/collections'
 import './admin.css'
@@ -21,7 +21,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   if (!user) return <AdminLogin siteName={settings.identity.site_name} />
 
-  const [counts, pages, leads] = await Promise.all([countEntries(), listPages(), listLeads()])
+  const [counts, pages, leads, media] = await Promise.all([countEntries(), listPages(), listLeads(), listMedia(240)])
   const newLeads = leads.filter((lead) => lead.status === 'new').length
 
   const groups = [
@@ -31,7 +31,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     },
     {
       title: 'Pages',
-      items: [{ href: '/admin/pages', label: 'All pages', count: pages.length }],
+      items: [
+        { href: '/admin/pages', label: 'All pages', count: pages.length },
+        { href: '/admin/media', label: 'Media library', count: media.length },
+      ],
     },
     {
       title: 'Collections',

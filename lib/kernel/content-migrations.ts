@@ -300,6 +300,10 @@ const MIGRATIONS: Array<{ id: string; run: () => Promise<void> }> = [
       await patchBlockData('contact', 'contactForm', CONTACT_FORM_DATA)
     },
   },
+  {
+    id: '2026-10-18a-home-eyebrow',
+    run: () => replaceBlocks('home', HOME_BLOCKS),
+  },
 ]
 
 /**

@@ -11,9 +11,9 @@ export async function generateMetadata(): Promise<Metadata> {
     title: { default: title, template: `%s · ${settings.identity.site_name}` },
     description,
     metadataBase: new URL(process.env.SITE_URL || 'https://internationalstudycouncil.com'),
-    openGraph: { title, description, type: 'website', siteName: settings.identity.site_name },
-    twitter: { card: 'summary_large_image', title, description },
-    icons: { icon: '/icon.svg' },
+    openGraph: { title, description, type: 'website', siteName: settings.identity.site_name, images: ['/isc-logo.png'] },
+    twitter: { card: 'summary_large_image', title, description, images: ['/isc-logo.png'] },
+    icons: { icon: '/isc-mark.png', apple: '/isc-mark.png' },
   }
 }
 

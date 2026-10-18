@@ -4700,7 +4700,7 @@ a.mark:hover .mark__logo {
 }
 
 /* ==========================================================================
-   The ISC logo — vector open book + amber signal arcs, extruded 3D feel
+   The ISC logo — the organisation's own artwork, used as an image
    ========================================================================== */
 
 .iscl {
@@ -4708,37 +4708,24 @@ a.mark:hover .mark__logo {
   width: clamp(200px, 30vw, 330px);
   height: auto;
   margin: 0 auto;
-  overflow: visible;
 }
-.iscl__word {
-  font-family: var(--font-sans, Inter, sans-serif);
-  font-size: 17px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  fill: #22334a;
+.iscl--animate {
+  animation: iscl-fade-in 0.8s var(--ease) both;
 }
-.iscl__arc {
-  fill: none;
-  stroke-linecap: round;
+@keyframes iscl-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
-/* The darker arc sitting 4.5px below reads as the signal's thickness. */
-.iscl__arc--depth {
-  stroke: #b96f18;
-  stroke-width: 12;
-}
-.iscl__arc--face {
-  stroke: url(#iscl-amber);
-  stroke-width: 11;
-}
-.iscl__i {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 30px;
-  font-weight: 500;
-  fill: #f6f1e4;
-}
-/* Small sizes: drop the wordmark ring, keep the emblem. */
-.iscl--compact .iscl__word {
-  display: none;
+@media (prefers-reduced-motion: reduce) {
+  .iscl--animate {
+    animation: none;
+  }
 }
 
 /* --------------------------- centred hero variant ------------------------ */
@@ -6379,66 +6366,6 @@ body::before {
 }
 
 /* ==========================================================================
-   ISC logo entrance — the signal arcs draw in, the book drops onto the page
-   ========================================================================== */
-
-.iscl--animate .iscl__arc--face {
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
-  animation: iscl-draw 0.85s cubic-bezier(0.45, 0.9, 0.4, 1) forwards;
-  animation-delay: var(--d, 0ms);
-}
-@keyframes iscl-draw {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-.iscl--animate .iscl__book {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: iscl-book-drop 0.7s cubic-bezier(0.3, 0.9, 0.35, 1) both;
-  animation-delay: 480ms;
-}
-/* The book falls in from above, lands with a small settle — the extrusion
-   and the shadow do the rest of the physical work. */
-@keyframes iscl-book-drop {
-  0% {
-    opacity: 0;
-    transform: translateY(-16px) rotate(-3deg);
-  }
-  60% {
-    opacity: 1;
-    transform: translateY(1.5px) rotate(0.6deg);
-  }
-  100% {
-    transform: translateY(0) rotate(0);
-  }
-}
-
-.iscl--animate .iscl__word {
-  animation: iscl-fade 0.8s ease both;
-  animation-delay: 850ms;
-}
-@keyframes iscl-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .iscl--animate .iscl__arc--face,
-  .iscl--animate .iscl__book,
-  .iscl--animate .iscl__word {
-    animation: none;
-    stroke-dashoffset: 0;
-  }
-}
-
-/* ==========================================================================
    Navigation — a bordered floating panel, links centred
    ========================================================================== */
 
@@ -6480,8 +6407,8 @@ body::before {
 }
 .brand__logo {
   display: block;
-  width: 2.1rem;
-  height: auto;
+  width: auto;
+  height: 2.1rem;
 }
 .brand__name {
   font-family: var(--font-mono);
@@ -6544,6 +6471,13 @@ body::before {
     display: none;
   }
   .brand__name {
+    display: none;
+  }
+}
+/* On phones the header CTA steps aside — the mobile menu carries it, and a
+   full-width button next to the lang switcher overflows narrow screens. */
+@media (max-width: 600px) {
+  .site-head__actions .btn {
     display: none;
   }
 }

@@ -26,7 +26,7 @@ export const HOME_BLOCKS: Array<{ type: string; data: Record<string, any> }> = [
   {
     type: 'hero',
     data: {
-      eyebrow: 'International Study Council',
+      eyebrow: 'Empowering Students to Make Informed Global Education Decisions',
       headline: 'There are many consultants.\nThis one is yours.',
       body: 'Tell us where you want to go and what you can afford. We map the universities, the funding and the visa route that actually fits you.',
       primary_label: 'Book a consultation',
