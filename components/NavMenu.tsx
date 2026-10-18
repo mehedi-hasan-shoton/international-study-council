@@ -60,15 +60,19 @@ export default function NavMenu({
         </Link>
 
         <nav className="site-nav" aria-label="Primary">
-          {items.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={bare === item.href || (item.href !== '/' && bare.startsWith(item.href)) ? 'is-active' : ''}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {items.map((item) => {
+            const active = bare === item.href || (item.href !== '/' && bare.startsWith(item.href))
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={active ? 'is-active' : ''}
+                aria-current={active ? 'page' : undefined}
+              >
+                {item.label}
+              </Link>
+            )
+          })}
         </nav>
 
         <div className="site-head__actions">
@@ -92,11 +96,11 @@ export default function NavMenu({
 
       <div className="site-nav--mobile" hidden={!open}>
         {items.map((item) => (
-          <Link key={item.href} href={item.href}>
+          <Link key={item.href} href={item.href} onClick={() => setOpen(false)}>
             {item.label}
           </Link>
         ))}
-        <Link className="btn btn--fg" href={ctaHref}>
+        <Link className="btn btn--fg" href={ctaHref} onClick={() => setOpen(false)}>
           {ctaLabel}
         </Link>
         <div className="site-nav--mobile__lang">

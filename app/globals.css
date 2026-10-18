@@ -6385,8 +6385,8 @@ body::before {
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  gap: clamp(0.75rem, 1.4vw, 1.4rem);
+  min-width: 0;
   height: auto;
   padding: 0.6rem 0.95rem;
   background: color-mix(in srgb, var(--bg-raised) 92%, transparent);
@@ -6399,8 +6399,9 @@ body::before {
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 11px;
   flex: 0 0 auto;
+  min-width: 0;
 }
 .brand__mark {
   display: none;
@@ -6409,29 +6410,35 @@ body::before {
   display: block;
   width: auto;
   height: 2.1rem;
+  flex: none;
 }
 .brand__name {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   letter-spacing: 0.01em;
   color: var(--fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-/* Below ~1300px the wordmark steps aside and the logo mark carries the
-   brand on its own, leaving room for the six nav links and the actions. */
-@media (max-width: 1300px) {
+/* The wordmark steps aside below 1500px so the six links, the search, the
+   language switcher and the CTA always have room. */
+@media (max-width: 1500px) {
   .brand__name {
     display: none;
   }
 }
 
-/* Links sit right after the brand, and the actions are pushed to the far
-   right — no absolute centring, so nothing can overlap at any width. */
+/* Links sit right after the brand; the actions are pushed to the far edge.
+   Nothing is absolutely centred, so nothing can overlap at any width. */
 .site-nav {
   display: flex;
   align-items: center;
-  gap: clamp(0.6rem, 1.4vw, 1.25rem);
+  gap: clamp(0.55rem, 1.05vw, 1rem);
   margin: 0;
+  flex: 0 1 auto;
   min-width: 0;
+  overflow: hidden;
   white-space: nowrap;
 }
 .site-nav a {
@@ -6443,6 +6450,7 @@ body::before {
   color: var(--fg-muted);
   background: none;
   transition: color 0.16s var(--ease);
+  white-space: nowrap;
 }
 .site-nav a:hover {
   color: var(--fg);
@@ -6452,15 +6460,20 @@ body::before {
   color: var(--fg);
 }
 
+/* Above the nav in the stacking order, so a squeezed link can never cover —
+   or swallow the click of — a search or language control. */
 .site-head__actions {
   display: flex;
   align-items: center;
   gap: 0.6rem;
   flex: 0 0 auto;
   margin-inline-start: auto;
+  position: relative;
+  z-index: 3;
 }
 
-@media (max-width: 1080px) {
+/* Six links plus actions stop fitting around here — the burger takes over. */
+@media (max-width: 1180px) {
   .site-nav {
     display: none;
   }
@@ -6468,9 +6481,6 @@ body::before {
     display: flex;
   }
   .site-nav--mobile[hidden] {
-    display: none;
-  }
-  .brand__name {
     display: none;
   }
 }
@@ -6890,4 +6900,25 @@ body::before {
 }
 .site-footer__youtube a:hover {
   color: var(--fg);
+}
+
+/* ------------------------------ touch polish ----------------------------- */
+
+/* A keyboard shortcut hint is noise on a touch screen. */
+@media (hover: none) {
+  .sbtn__kbd {
+    display: none;
+  }
+}
+
+/* On small phones the WhatsApp button becomes a round icon so it stops
+   covering the content underneath it. */
+@media (max-width: 480px) {
+  .wa-float {
+    padding: 13px;
+    gap: 0;
+  }
+  .wa-float__label {
+    display: none;
+  }
 }

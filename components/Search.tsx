@@ -195,9 +195,10 @@ function SearchPanel({
     }
   }, [query])
 
-  /* Close when the route changes. */
+  /* Close when the route changes — but not on the mount that opened it. */
+  const openedOnPath = useRef(pathname)
   useEffect(() => {
-    onClose()
+    if (openedOnPath.current !== pathname) onClose()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 

@@ -1909,7 +1909,7 @@ registerBlock({
     return (
       <a className="wa-float" href={`${base}${text ? (base.includes('?') ? '&' : '?') + `text=${text}` : ''}`} target="_blank" rel="noopener noreferrer">
         <span className="wa-float__dot" aria-hidden="true" />
-        {data.label || 'Chat on WhatsApp'}
+        <span className="wa-float__label">{data.label || 'Chat on WhatsApp'}</span>
       </a>
     )
   },
