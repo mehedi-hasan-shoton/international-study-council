@@ -6,14 +6,18 @@ import { getEntry, getSettings, listEntries } from '@/lib/kernel/content'
 import { asList, money } from '@/lib/kernel/ids'
 import { i18nFor } from '@/lib/kernel/i18n'
 import { markdown } from '@/lib/kernel/md'
+import { publicMetadata } from '@/lib/seo'
 
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }) {
   const { locale, slug } = await params
-  const entry = await getEntry('countries', slug)
+  const [entry, settings] = await Promise.all([getEntry('countries', slug), getSettings()])
   if (!entry) return { title: 'Destination not found' }
-  return { title: `Study in ${entry.title}`, description: entry.data?.intro }
+  return publicMetadata({
+    settings, locale, path: `/destinations/${encodeURIComponent(slug)}`,
+    title: `Study in ${entry.title}`, description: entry.data?.intro,
+  })
 }
 
 export default async function DestinationPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {

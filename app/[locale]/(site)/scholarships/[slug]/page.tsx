@@ -6,14 +6,18 @@ import { getEntry, getSettings, listEntries } from '@/lib/kernel/content'
 import { asList, daysUntil, formatDate } from '@/lib/kernel/ids'
 import { i18nFor } from '@/lib/kernel/i18n'
 import { markdown } from '@/lib/kernel/md'
+import { publicMetadata } from '@/lib/seo'
 
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }) {
   const { locale, slug } = await params
-  const entry = await getEntry('scholarships', slug)
+  const [entry, settings] = await Promise.all([getEntry('scholarships', slug), getSettings()])
   if (!entry) return { title: 'Scholarship not found' }
-  return { title: entry.title, description: entry.data?.summary }
+  return publicMetadata({
+    settings, locale, path: `/scholarships/${encodeURIComponent(slug)}`,
+    title: entry.title, description: entry.data?.summary,
+  })
 }
 
 export default async function ScholarshipPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {

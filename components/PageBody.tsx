@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { getPage, getSettings } from '@/lib/kernel/content'
 import { getDict } from '@/lib/kernel/i18n'
 import { renderPage } from '@/lib/kernel/render'
+import { publicMetadata } from '@/lib/seo'
 
 /** Renders a page from the database by slug, through the kernel render loop. */
 export default async function PageBody({
@@ -20,9 +21,12 @@ export default async function PageBody({
 
 export async function pageMetadata(slug: string, locale: string, fallbackTitle: string) {
   const [page, settings, dict] = await Promise.all([getPage(slug), getSettings(), getDict(locale)])
-  if (!page) return { title: fallbackTitle }
-  return {
+  if (!page) return { title: fallbackTitle, robots: { index: false } }
+  return publicMetadata({
+    settings,
+    locale: dict.locale,
+    path: slug === 'home' ? '/' : `/${encodeURIComponent(slug)}`,
     title: dict.c(`page.${page.id}.title`) || page.seo_title || page.title || fallbackTitle,
     description: dict.c(`page.${page.id}.seo_description`) || page.seo_description || settings.seo.default_description,
-  }
+  })
 }

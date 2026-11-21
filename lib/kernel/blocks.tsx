@@ -135,7 +135,12 @@ registerBlock({
             <h1 className="display">
               <Lines text={data.headline} />
             </h1>
-            {data.body ? <p className="hero__body">{data.body}</p> : null}
+            {data.body ? (
+              <p className="hero__body">
+                {ctx.path === '/home' ? <><strong>{ctx.settings.identity.site_name}</strong>{' — '}</> : null}
+                {data.body}
+              </p>
+            ) : null}
             {data.primary_label || data.secondary_label ? (
               <div className="hero__actions">
                 <Btn href={data.primary_href || '/contact'} variant="ink" size="lg" settings={ctx.settings} i18n={ctx.i18n}>

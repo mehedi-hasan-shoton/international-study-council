@@ -1,13 +1,13 @@
 import type { MetadataRoute } from 'next'
 import { getSettings } from '@/lib/kernel/content'
 import { query } from '@/lib/kernel/db'
-import { DEFAULT_LOCALE, LOCALES } from '@/lib/kernel/dictionary'
+import { DEFAULT_LOCALE } from '@/lib/kernel/dictionary'
+import { enabledLocales, publicUrl } from '@/lib/seo'
 
 // Read the CMS on each request so newly published and unpublished content is
 // reflected without another deployment.
 export const dynamic = 'force-dynamic'
 
-const ORIGIN = 'https://internationalstudycouncil.com'
 const DETAIL_ROUTES: Record<string, string> = {
   universities: 'universities',
   scholarships: 'scholarships',
@@ -37,8 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ),
   ])
 
-  const enabled = settings.languages?.enabled || [DEFAULT_LOCALE]
-  const locales = LOCALES.filter(({ code }) => code === DEFAULT_LOCALE || enabled.includes(code))
+  const locales = enabledLocales(settings)
   const paths = new Map<string, string | Date>()
 
   for (const page of pages) {
@@ -51,19 +50,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     paths.set(`/${route}/${encodeURIComponent(entry.slug)}`, entry.updated_at)
   }
 
-  const urlFor = (locale: string, path: string) =>
-    `${ORIGIN}${locale === DEFAULT_LOCALE ? '' : `/${locale}`}${path === '/' && locale !== DEFAULT_LOCALE ? '' : path}`
-
   return [...paths].flatMap(([path, updatedAt]) => {
     const date = new Date(updatedAt)
     const lastModified = Number.isFinite(date.getTime()) ? date : undefined
     const languages = Object.fromEntries([
-      ...locales.map(({ code }) => [code, urlFor(code, path)]),
-      ['x-default', urlFor(DEFAULT_LOCALE, path)],
+      ...locales.map(({ code }) => [code, publicUrl(code, path)]),
+      ['x-default', publicUrl(DEFAULT_LOCALE, path)],
     ])
 
     return locales.map(({ code }) => ({
-      url: urlFor(code, path),
+      url: publicUrl(code, path),
       lastModified,
       alternates: { languages },
     }))

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { headers } from 'next/headers'
 import { getSettings } from '@/lib/kernel/content'
+import { SITE_ORIGIN } from '@/lib/seo'
 import './globals.css'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -10,7 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: { default: title, template: `%s · ${settings.identity.site_name}` },
     description,
-    metadataBase: new URL(process.env.SITE_URL || 'https://internationalstudycouncil.com'),
+    metadataBase: new URL(SITE_ORIGIN),
     openGraph: { title, description, type: 'website', siteName: settings.identity.site_name, images: ['/isc-logo.png'] },
     twitter: { card: 'summary_large_image', title, description, images: ['/isc-logo.png'] },
     icons: { icon: '/isc-mark.png', apple: '/isc-mark.png' },

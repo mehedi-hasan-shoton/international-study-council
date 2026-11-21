@@ -6,17 +6,19 @@ import { getEntry, getSettings, listEntries } from '@/lib/kernel/content'
 import { asArray, asList, money } from '@/lib/kernel/ids'
 import { i18nFor } from '@/lib/kernel/i18n'
 import { markdown } from '@/lib/kernel/md'
+import { publicMetadata } from '@/lib/seo'
 
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }) {
   const { locale, slug } = await params
-  const entry = await getEntry('universities', slug)
+  const [entry, settings] = await Promise.all([getEntry('universities', slug), getSettings()])
   if (!entry) return { title: 'University not found' }
-  return {
+  return publicMetadata({
+    settings, locale, path: `/universities/${encodeURIComponent(slug)}`,
     title: `${entry.title}, ${entry.data?.country || ''}`.replace(/, $/, ''),
     description: entry.data?.summary,
-  }
+  })
 }
 
 export default async function UniversityPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {

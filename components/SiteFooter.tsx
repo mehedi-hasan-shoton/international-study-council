@@ -37,7 +37,7 @@ export default async function SiteFooter({ locale }: { locale: string }) {
 
   const links: Array<{ key: SocialKey; label: string; href: string }> = []
   if (contact.email) links.push({ key: 'mail', label: contact.email, href: `mailto:${contact.email}` })
-  if (wa) links.push({ key: 'whatsapp', label: 'WhatsApp', href: `https://wa.me/${wa}` })
+  if (wa) links.push({ key: 'whatsapp', label: 'WhatsApp', href: wa })
   if (social.youtube) links.push({ key: 'youtube', label: 'YouTube', href: social.youtube })
   if (social.facebook) links.push({ key: 'facebook', label: 'Facebook', href: social.facebook })
   if (social.instagram) links.push({ key: 'instagram', label: 'Instagram', href: social.instagram })
